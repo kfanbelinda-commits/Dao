@@ -137,10 +137,7 @@ body::before{
 .hero::after{
   content:"";
   position:absolute;left:26px;right:26px;bottom:0;height:1px;
-  background:
-    radial-gradient(circle 3px at 0 50%, var(--gold) 97%, transparent),
-    radial-gradient(circle 3px at 100% 50%, var(--gold) 97%, transparent),
-    linear-gradient(90deg, transparent 20px, var(--line) 20px calc(100% - 20px), transparent calc(100% - 20px));
+  background:linear-gradient(90deg, transparent 20px, var(--line) 20px calc(100% - 20px), transparent calc(100% - 20px));
 }
 .scene{position:absolute;inset:0;z-index:-1;pointer-events:none}
 .taiji{
@@ -160,19 +157,7 @@ body::before{
   animation:celestial-orbit 70s linear infinite;
   pointer-events:none;
 }
-.hero .star{
-  position:absolute;width:4px;height:4px;border-radius:50%;
-  background:var(--gold);box-shadow:0 0 0 4px rgba(197,160,89,.08);
-  animation:star-breathe 4.8s ease-in-out infinite;
-  pointer-events:none;
-}
-.hero .star.s1{right:17%;top:24%}
-.hero .star.s2{left:24%;top:32%;animation-delay:1.6s}
 @keyframes celestial-orbit{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-@keyframes star-breathe{
-  0%,100%{opacity:.55;box-shadow:0 0 0 4px rgba(197,160,89,.06)}
-  50%{opacity:1;box-shadow:0 0 0 7px rgba(197,160,89,.12),0 0 14px rgba(197,160,89,.22)}
-}
 .hero-seal{
   position:absolute;right:54px;bottom:34px;width:58px;height:58px;
   display:grid;place-items:center;opacity:.5;pointer-events:none;
@@ -194,10 +179,7 @@ html.js .series.visible{opacity:1;transform:none}
 .series-head{position:relative;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--line);padding-bottom:14px}
 .series-head::after{
   content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
-  background:
-    radial-gradient(circle 3px at 0 50%, var(--gold) 97%, transparent),
-    radial-gradient(circle 3px at 100% 50%, var(--gold) 97%, transparent),
-    linear-gradient(90deg, transparent 26px, var(--gold) 26px calc(100% - 26px), transparent calc(100% - 26px));
+  background:linear-gradient(90deg, transparent 26px, var(--gold) 26px calc(100% - 26px), transparent calc(100% - 26px));
 }
 .series-name{font-family:var(--font-display);font-weight:400;font-size:27px;letter-spacing:.14em;color:var(--head-title)}
 .series-note{margin-left:auto;font-size:13px;color:var(--muted);letter-spacing:.08em}
@@ -363,8 +345,8 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   html.js .series{opacity:1;transform:none;transition:none}
-  .card,.quicknav,.toTop,.themeBtn,.progress,.hero .orbit,.hero .star{transition:none}
-  .hero .orbit,.hero .star{animation:none}
+  .card,.quicknav,.toTop,.themeBtn,.progress,.hero .orbit{transition:none}
+  .hero .orbit{animation:none}
 }
 @media print{
   .frame,.scene,.vtext,.quicknav,.toTop,.themeBtn,.progress{display:none!important}
@@ -406,8 +388,6 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
         <circle r="39" fill="none" style="stroke:var(--gold);stroke-width:.6" opacity=".55"/>
       </svg>
       <div class="orbit"></div>
-      <span class="star s1"></span>
-      <span class="star s2"></span>
       <div class="hero-seal"><span>道</span></div>
       <svg viewBox="0 0 1000 240" preserveAspectRatio="xMidYMax meet" style="height:196px">
         <path d="M0,240 L0,190 Q90,120 190,178 Q270,224 360,160 Q445,102 540,168 Q630,228 720,150 Q810,78 900,148 Q960,190 1000,170 L1000,240 Z" style="fill:var(--ridge1)"/>
@@ -430,7 +410,6 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
   <div class="divider" aria-hidden="true">
     <svg viewBox="0 0 120 20">
       <path d="M8,12 Q16,4 26,11 Q34,17 46,10 Q56,4 68,12 Q78,18 92,10 Q102,4 114,10" fill="none" style="stroke:var(--gold)" stroke-width="2" stroke-linecap="round"/>
-      <circle cx="60" cy="10" r="2.2" style="fill:var(--gold)"/>
     </svg>
   </div>
 
