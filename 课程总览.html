@@ -285,6 +285,10 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
   .themeBtn{right:14px;bottom:70px;width:38px;height:38px;font-size:14px}
   .toTop{right:14px;bottom:18px;width:42px;height:42px;font-size:15px}
 }
+/* 半宽及以下窗口留白不足，隐藏右侧竖排小字，避免遮挡内容 */
+@media (max-width:1220px){
+  .vtext{display:none}
+}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   html.js .series{opacity:1;transform:none;transition:none}
