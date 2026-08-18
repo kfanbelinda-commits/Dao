@@ -158,14 +158,6 @@ body::before{
   pointer-events:none;
 }
 @keyframes celestial-orbit{from{transform:rotate(0)}to{transform:rotate(360deg)}}
-.hero-seal{
-  position:absolute;right:54px;bottom:34px;width:58px;height:58px;
-  display:grid;place-items:center;opacity:.5;pointer-events:none;
-}
-.hero-seal::before{content:"";position:absolute;inset:0;border:1.5px solid var(--gold);border-radius:50%}
-.hero-seal::after{content:"";position:absolute;inset:4px;border:.5px solid var(--gold);border-radius:50%;opacity:.6}
-.hero-seal span{font-family:var(--font-display);font-size:26px;color:var(--gold);transform:rotate(-12deg)}
-
 /* ===== 云纹分隔 ===== */
 .divider{display:flex;align-items:center;gap:18px;margin:40px 0 10px;color:var(--gold)}
 .divider::before,.divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--line))}
@@ -326,8 +318,6 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
   .hero{height:190px}
   .taiji{width:54px;height:54px;right:6%;top:26px}
   .hero .orbit{display:none}
-  .hero-seal{right:26px;bottom:20px;width:44px;height:44px}
-  .hero-seal span{font-size:20px}
   .grid{grid-template-columns:1fr;gap:14px}
   .series-name{font-size:22px}
   .series-note{font-size:12px;text-align:right}
@@ -388,7 +378,6 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
         <circle r="39" fill="none" style="stroke:var(--gold);stroke-width:.6" opacity=".55"/>
       </svg>
       <div class="orbit"></div>
-      <div class="hero-seal"><span>道</span></div>
       <svg viewBox="0 0 1000 240" preserveAspectRatio="xMidYMax meet" style="height:196px">
         <path d="M0,240 L0,190 Q90,120 190,178 Q270,224 360,160 Q445,102 540,168 Q630,228 720,150 Q810,78 900,148 Q960,190 1000,170 L1000,240 Z" style="fill:var(--ridge1)"/>
         <path d="M0,240 L0,215 Q110,150 210,202 Q300,246 400,192 Q500,140 600,196 Q700,248 800,186 Q900,128 1000,196 L1000,240 Z" style="fill:var(--ridge2)"/>
