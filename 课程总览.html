@@ -49,8 +49,6 @@
   --card-hover-bg2:#352016;
   --card-hover-title:#f6eee2;
   --card-hover-soft:rgba(246,238,226,.62);
-  --corner-uri:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M2 14V2h12' fill='none' stroke='%23a8874b' stroke-width='1.2'/%3E%3C/svg%3E");
-  --corner-uri-hover:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M2 14V2h12' fill='none' stroke='%23d3b779' stroke-width='1.2'/%3E%3C/svg%3E");
 }
 [data-theme="dark"]{
   --paper:#211c16;
@@ -87,8 +85,6 @@
   --card-hover-bg2:#312519;
   --card-hover-title:#f2e7d0;
   --card-hover-soft:rgba(242,231,208,.6);
-  --corner-uri:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M2 14V2h12' fill='none' stroke='%23b28a4e' stroke-width='1.2'/%3E%3C/svg%3E");
-  --corner-uri-hover:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M2 14V2h12' fill='none' stroke='%23e0c48a' stroke-width='1.2'/%3E%3C/svg%3E");
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -209,12 +205,7 @@ html.js .series.visible{opacity:1;transform:none}
 .card{
   --bg1:var(--card-bg1);--bg2:var(--card-bg2);
   display:flex;align-items:center;gap:16px;
-  background-image:
-    var(--corner-uri),var(--corner-uri),var(--corner-uri),var(--corner-uri),
-    linear-gradient(180deg,var(--bg1),var(--bg2));
-  background-position:top 9px left 9px,top 9px right 9px,bottom 9px left 9px,bottom 9px right 9px,center;
-  background-repeat:no-repeat;
-  background-size:16px 16px,16px 16px,16px 16px,16px 16px,cover;
+  background-image:linear-gradient(180deg,var(--bg1),var(--bg2));
   border:1px solid var(--line);border-radius:3px;
   padding:18px 20px;text-decoration:none;color:inherit;
   position:relative;overflow:hidden;
@@ -226,7 +217,6 @@ html.js .series.visible{opacity:1;transform:none}
 }
 .card:hover{
   --bg1:var(--card-hover-bg1);--bg2:var(--card-hover-bg2);
-  --corner-uri:var(--corner-uri-hover);
   transform:translateY(-4px);
   box-shadow:0 16px 34px var(--shadow);
   border-color:var(--gold);
