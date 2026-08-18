@@ -49,6 +49,8 @@
   --card-hover-bg2:#352016;
   --card-hover-title:#f6eee2;
   --card-hover-soft:rgba(246,238,226,.62);
+  --taiji-dark:#5a4632;
+  --taiji-light:#f2e6c9;
 }
 [data-theme="dark"]{
   --paper:#211c16;
@@ -85,6 +87,8 @@
   --card-hover-bg2:#312519;
   --card-hover-title:#f2e7d0;
   --card-hover-soft:rgba(242,231,208,.6);
+  --taiji-dark:#6b5136;
+  --taiji-light:#efe3c8;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -139,14 +143,11 @@ body::before{
     linear-gradient(90deg, transparent 20px, var(--line) 20px calc(100% - 20px), transparent calc(100% - 20px));
 }
 .scene{position:absolute;inset:0;z-index:-1;pointer-events:none}
-.moon{
-  position:absolute;right:9%;top:40px;width:84px;height:84px;border-radius:50%;
-  background:radial-gradient(circle at 38% 34%,#fdf4d8,#e9d5a4 62%,#d9bf86);
-  box-shadow:0 0 34px rgba(212,178,112,.42);
-}
-.moon::after{
-  content:"";position:absolute;inset:0;border-radius:50%;
-  background:radial-gradient(circle at 62% 58%,rgba(161,126,74,.28) 0 12%,transparent 13%);
+.taiji{
+  position:absolute;right:9%;top:40px;width:84px;height:84px;
+  border-radius:50%;
+  filter:drop-shadow(0 0 22px rgba(212,178,112,.32));
+  opacity:.96;
 }
 .scene svg{position:absolute;left:0;right:0;bottom:0;width:100%;pointer-events:none}
 .scene .wash{
@@ -348,7 +349,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
   .wrap{padding:0 18px 70px}
   .frame{inset:7px}
   .hero{height:190px}
-  .moon{width:54px;height:54px;right:6%;top:26px}
+  .taiji{width:54px;height:54px;right:6%;top:26px}
   .hero .orbit{display:none}
   .hero-seal{right:26px;bottom:20px;width:44px;height:44px}
   .hero-seal span{font-size:20px}
@@ -404,7 +405,13 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
     <h1 class="sr-only">课程总览</h1>
     <div class="scene" aria-hidden="true">
       <div class="wash"></div>
-      <div class="moon"></div>
+      <svg class="taiji" viewBox="-40 -40 80 80" aria-hidden="true">
+        <circle r="39" style="fill:var(--taiji-dark)"/>
+        <path style="fill:var(--taiji-light)" d="M0,38a38,38 0 0 1 0,-76a19,19 0 0 1 0,38a19,19 0 0 0 0,38"/>
+        <circle r="5" cy="19" style="fill:var(--taiji-light)"/>
+        <circle r="5" cy="-19" style="fill:var(--taiji-dark)"/>
+        <circle r="39" fill="none" style="stroke:var(--gold);stroke-width:.6" opacity=".55"/>
+      </svg>
       <div class="orbit"></div>
       <span class="star s1"></span>
       <span class="star s2"></span>
