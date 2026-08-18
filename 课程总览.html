@@ -7,9 +7,13 @@
 <title>课程总览</title>
 <meta name="theme-color" content="#f5efe2">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%239c3a28'/%3E%3Ctext x='32' y='45' font-size='34' text-anchor='middle' fill='%23f5e9d2' font-family='KaiTi,STKaiti,SimSun,serif'%3E%E9%81%93%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-gb-web@latest/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/ma-shan-zheng@5.1.0/index.css">
 <script>try{var t=localStorage.getItem("theme");if(!t){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme="light"}</script>
 <style>
 :root{
+  --font-serif:"LXGW WenKai GB","Kaiti SC","STKaiti","KaiTi","Noto Serif SC","Songti SC",SimSun,serif;
+  --font-display:"Ma Shan Zheng","LXGW WenKai GB","Kaiti SC","STKaiti",cursive;
   --paper:#f5efe2;
   --paper2:#efe6d2;
   --ink:#2b2723;
@@ -40,6 +44,13 @@
   --texture:rgba(140,110,70,.018);
   --texture2:rgba(140,110,70,.012);
   --shadow:rgba(74,56,34,.14);
+  --symbol:rgba(75,44,32,.07);
+  --card-hover-bg1:#47291f;
+  --card-hover-bg2:#352016;
+  --card-hover-title:#f6eee2;
+  --card-hover-soft:rgba(246,238,226,.62);
+  --corner-uri:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M2 14V2h12' fill='none' stroke='%23a8874b' stroke-width='1.2'/%3E%3C/svg%3E");
+  --corner-uri-hover:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M2 14V2h12' fill='none' stroke='%23d3b779' stroke-width='1.2'/%3E%3C/svg%3E");
 }
 [data-theme="dark"]{
   --paper:#211c16;
@@ -71,6 +82,13 @@
   --texture:rgba(200,170,120,.03);
   --texture2:rgba(200,170,120,.02);
   --shadow:rgba(0,0,0,.5);
+  --symbol:rgba(232,221,198,.07);
+  --card-hover-bg1:#3a2d1f;
+  --card-hover-bg2:#312519;
+  --card-hover-title:#f2e7d0;
+  --card-hover-soft:rgba(242,231,208,.6);
+  --corner-uri:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M2 14V2h12' fill='none' stroke='%23b28a4e' stroke-width='1.2'/%3E%3C/svg%3E");
+  --corner-uri-hover:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cpath d='M2 14V2h12' fill='none' stroke='%23e0c48a' stroke-width='1.2'/%3E%3C/svg%3E");
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -80,7 +98,7 @@ body{
     radial-gradient(1200px 500px at 50% -120px, var(--glow1) 0%, var(--glow2) 60%),
     var(--paper);
   color:var(--ink);
-  font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif;
+  font-family:var(--font-serif);
   line-height:1.9;
   font-size:17px;
   -webkit-font-smoothing:antialiased;
@@ -93,6 +111,20 @@ body::before{
     repeating-linear-gradient(93deg, var(--texture) 0 2px, transparent 2px 5px),
     repeating-linear-gradient(4deg, var(--texture2) 0 1px, transparent 1px 4px);
 }
+::-webkit-scrollbar{width:7px;height:7px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,rgba(197,160,89,.4),rgba(197,160,89,.15));border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:rgba(197,160,89,.6)}
+
+/* ===== 页面金线框 ===== */
+.frame{
+  position:fixed;inset:14px;z-index:4;pointer-events:none;
+  border:1px solid rgba(197,160,89,.65);
+}
+.frame::after{
+  content:"";position:absolute;inset:3px;
+  border:.5px solid rgba(197,160,89,.42);
+}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .wrap{max-width:1080px;margin:0 auto;padding:0 28px 90px}
 
@@ -104,9 +136,11 @@ body::before{
 }
 .hero::after{
   content:"";
-  position:absolute;left:50%;bottom:0;transform:translateX(-50%);
-  width:640px;height:1px;
-  background:linear-gradient(90deg,transparent,var(--gold) 22%,var(--gold) 78%,transparent);
+  position:absolute;left:26px;right:26px;bottom:0;height:1px;
+  background:
+    radial-gradient(circle 3px at 0 50%, var(--gold) 97%, transparent),
+    radial-gradient(circle 3px at 100% 50%, var(--gold) 97%, transparent),
+    linear-gradient(90deg, transparent 20px, var(--line) 20px calc(100% - 20px), transparent calc(100% - 20px));
 }
 .scene{position:absolute;inset:0;z-index:-1;pointer-events:none}
 .moon{
@@ -123,6 +157,32 @@ body::before{
   position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(820px 300px at 50% -40px, var(--ink-wash), transparent 70%);
 }
+.hero .orbit{
+  position:absolute;right:-90px;top:-110px;width:360px;height:360px;
+  border:1px dashed rgba(197,160,89,.22);border-radius:50%;
+  animation:celestial-orbit 70s linear infinite;
+  pointer-events:none;
+}
+.hero .star{
+  position:absolute;width:4px;height:4px;border-radius:50%;
+  background:var(--gold);box-shadow:0 0 0 4px rgba(197,160,89,.08);
+  animation:star-breathe 4.8s ease-in-out infinite;
+  pointer-events:none;
+}
+.hero .star.s1{right:17%;top:24%}
+.hero .star.s2{left:24%;top:32%;animation-delay:1.6s}
+@keyframes celestial-orbit{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes star-breathe{
+  0%,100%{opacity:.55;box-shadow:0 0 0 4px rgba(197,160,89,.06)}
+  50%{opacity:1;box-shadow:0 0 0 7px rgba(197,160,89,.12),0 0 14px rgba(197,160,89,.22)}
+}
+.hero-seal{
+  position:absolute;right:54px;bottom:34px;width:58px;height:58px;
+  display:grid;place-items:center;opacity:.5;pointer-events:none;
+}
+.hero-seal::before{content:"";position:absolute;inset:0;border:1.5px solid var(--gold);border-radius:50%}
+.hero-seal::after{content:"";position:absolute;inset:4px;border:.5px solid var(--gold);border-radius:50%;opacity:.6}
+.hero-seal span{font-family:var(--font-display);font-size:26px;color:var(--gold);transform:rotate(-12deg)}
 
 /* ===== 云纹分隔 ===== */
 .divider{display:flex;align-items:center;gap:18px;margin:40px 0 10px;color:var(--gold)}
@@ -134,24 +194,43 @@ body::before{
 .series{margin-top:54px;scroll-margin-top:78px}
 html.js .series{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}
 html.js .series.visible{opacity:1;transform:none}
-.series-head{display:flex;align-items:baseline;gap:16px;border-bottom:2px solid var(--cinnabar);padding-bottom:10px}
-.series-name{font-size:25px;font-weight:700;letter-spacing:.12em;color:var(--head-title)}
+.series-head{position:relative;display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--line);padding-bottom:14px}
+.series-head::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
+  background:
+    radial-gradient(circle 3px at 0 50%, var(--gold) 97%, transparent),
+    radial-gradient(circle 3px at 100% 50%, var(--gold) 97%, transparent),
+    linear-gradient(90deg, transparent 26px, var(--gold) 26px calc(100% - 26px), transparent calc(100% - 26px));
+}
+.series-name{font-family:var(--font-display);font-weight:400;font-size:27px;letter-spacing:.14em;color:var(--head-title)}
 .series-note{margin-left:auto;font-size:13px;color:var(--muted);letter-spacing:.08em}
 
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:22px}
 .card{
+  --bg1:var(--card-bg1);--bg2:var(--card-bg2);
   display:flex;align-items:center;gap:16px;
-  background:linear-gradient(180deg,var(--card-bg1),var(--card-bg2));
-  border:1px solid var(--line);border-radius:12px;
+  background-image:
+    var(--corner-uri),var(--corner-uri),var(--corner-uri),var(--corner-uri),
+    linear-gradient(180deg,var(--bg1),var(--bg2));
+  background-position:top 9px left 9px,top 9px right 9px,bottom 9px left 9px,bottom 9px right 9px,center;
+  background-repeat:no-repeat;
+  background-size:16px 16px,16px 16px,16px 16px,16px 16px,cover;
+  border:1px solid var(--line);border-radius:3px;
   padding:18px 20px;text-decoration:none;color:inherit;
   position:relative;overflow:hidden;
-  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;
 }
 .card::before{
   content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
   background:var(--cinnabar);opacity:0;transition:opacity .22s ease;
 }
-.card:hover{transform:translateY(-3px);box-shadow:0 10px 26px var(--shadow);border-color:var(--card-hover-line)}
+.card:hover{
+  --bg1:var(--card-hover-bg1);--bg2:var(--card-hover-bg2);
+  --corner-uri:var(--corner-uri-hover);
+  transform:translateY(-4px);
+  box-shadow:0 16px 34px var(--shadow);
+  border-color:var(--gold);
+}
 .card:hover::before{opacity:1}
 .card:focus-visible{outline:2px solid var(--cinnabar);outline-offset:3px}
 .card-no{
@@ -170,10 +249,20 @@ html.js .series.visible{opacity:1;transform:none}
 }
 .card-arrow{
   flex:none;color:var(--gold);font-size:19px;font-family:Georgia,serif;
+  position:relative;z-index:1;
   transition:transform .22s ease,color .22s ease;
 }
-.card:hover .card-arrow{transform:translateX(4px);color:var(--cinnabar)}
-.card:hover .card-no{background:var(--cinnabar);border-color:var(--cinnabar);color:#f7eeda}
+.card:hover .card-title{color:var(--card-hover-title)}
+.card:hover .card-desc{color:var(--card-hover-soft)}
+.card:hover .card-arrow{transform:translateX(4px);color:#d3b779}
+.card:hover .card-no{border-color:#d3b779;color:#f2e7d0;background:rgba(211,183,121,.14)}
+.card-symbol{
+  position:absolute;top:12px;right:14px;
+  font-family:var(--font-display);font-size:66px;line-height:1;
+  color:var(--symbol);pointer-events:none;
+  transition:transform .5s ease,color .35s ease;
+}
+.card:hover .card-symbol{transform:rotate(-7deg) scale(1.06);color:rgba(246,238,226,.09)}
 .card::after{
   content:"";position:absolute;right:-46px;top:-46px;width:130px;height:130px;border-radius:50%;
   background:radial-gradient(circle,var(--card-halo),transparent 70%);
@@ -267,11 +356,16 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
 @media (max-width:760px){
   body{font-size:16px}
   .wrap{padding:0 18px 70px}
+  .frame{inset:7px}
   .hero{height:190px}
   .moon{width:54px;height:54px;right:6%;top:26px}
+  .hero .orbit{display:none}
+  .hero-seal{right:26px;bottom:20px;width:44px;height:44px}
+  .hero-seal span{font-size:20px}
   .grid{grid-template-columns:1fr;gap:14px}
-  .series-name{font-size:21px}
+  .series-name{font-size:22px}
   .series-note{font-size:12px;text-align:right}
+  .card-symbol{font-size:52px}
   .vtext{display:none}
   .quicknav-inner{padding:7px 14px;justify-content:flex-start}
   .quicknav a{font-size:13px;padding:3px 9px}
@@ -285,15 +379,18 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   html.js .series{opacity:1;transform:none;transition:none}
-  .card,.quicknav,.toTop,.themeBtn,.progress{transition:none}
+  .card,.quicknav,.toTop,.themeBtn,.progress,.hero .orbit,.hero .star{transition:none}
+  .hero .orbit,.hero .star{animation:none}
 }
 @media print{
-  .scene,.vtext,.quicknav,.toTop,.themeBtn,.progress{display:none!important}
+  .frame,.scene,.vtext,.quicknav,.toTop,.themeBtn,.progress{display:none!important}
   .card{break-inside:avoid}
 }
 </style>
 </head>
 <body>
+
+<div class="frame" aria-hidden="true"></div>
 
 <div class="progress" id="progress" aria-hidden="true"></div>
 
@@ -318,6 +415,10 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
     <div class="scene" aria-hidden="true">
       <div class="wash"></div>
       <div class="moon"></div>
+      <div class="orbit"></div>
+      <span class="star s1"></span>
+      <span class="star s2"></span>
+      <div class="hero-seal"><span>道</span></div>
       <svg viewBox="0 0 1000 240" preserveAspectRatio="xMidYMax meet" style="height:196px">
         <path d="M0,240 L0,190 Q90,120 190,178 Q270,224 360,160 Q445,102 540,168 Q630,228 720,150 Q810,78 900,148 Q960,190 1000,170 L1000,240 Z" style="fill:var(--ridge1)"/>
         <path d="M0,240 L0,215 Q110,150 210,202 Q300,246 400,192 Q500,140 600,196 Q700,248 800,186 Q900,128 1000,196 L1000,240 Z" style="fill:var(--ridge2)"/>
@@ -351,6 +452,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
     </div>
     <div class="grid">
       <a class="card" href="第1节课_三魂七魄.html">
+        <span class="card-symbol" aria-hidden="true">魂</span>
         <span class="card-no">1</span>
         <span class="card-body">
           <span class="card-title">三魂七魄：从生理与生活角度认识魂魄</span>
@@ -359,6 +461,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
         <span class="card-arrow">→</span>
       </a>
       <a class="card" href="第2节课_魂魄论道.html">
+        <span class="card-symbol" aria-hidden="true">魄</span>
         <span class="card-no">2</span>
         <span class="card-body">
           <span class="card-title">魂魄：从修道角度谈三魂七魄、元神与识神</span>
@@ -377,6 +480,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
     </div>
     <div class="grid">
       <a class="card" href="第3节课_修真大门.html">
+        <span class="card-symbol" aria-hidden="true">真</span>
         <span class="card-no">3</span>
         <span class="card-body">
           <span class="card-title">修真大门：从精气神谈筑基</span>
@@ -385,6 +489,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
         <span class="card-arrow">→</span>
       </a>
       <a class="card" href="第8节课_财侣法地.html">
+        <span class="card-symbol" aria-hidden="true">财</span>
         <span class="card-no">8</span>
         <span class="card-body">
           <span class="card-title">财侣法地：修道的四个基础</span>
@@ -403,6 +508,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
     </div>
     <div class="grid">
       <a class="card" href="第4节课_太乙回光.html">
+        <span class="card-symbol" aria-hidden="true">光</span>
         <span class="card-no">4</span>
         <span class="card-body">
           <span class="card-title">太乙回光：吕祖的回光之法与顿悟根器</span>
@@ -411,6 +517,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
         <span class="card-arrow">→</span>
       </a>
       <a class="card" href="第5节课_回光返照.html">
+        <span class="card-symbol" aria-hidden="true">照</span>
         <span class="card-no">5</span>
         <span class="card-body">
           <span class="card-title">回光返照：反照、垂帘与止观</span>
@@ -419,6 +526,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
         <span class="card-arrow">→</span>
       </a>
       <a class="card" href="第11节课_生活回光法.html">
+        <span class="card-symbol" aria-hidden="true">生</span>
         <span class="card-no">11</span>
         <span class="card-body">
           <span class="card-title">生活回光法：事来应过，物来识破</span>
@@ -437,6 +545,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
     </div>
     <div class="grid">
       <a class="card" href="第6节课_清静经.html">
+        <span class="card-symbol" aria-hidden="true">静</span>
         <span class="card-no">6</span>
         <span class="card-body">
           <span class="card-title">清静经：遣欲澄心，渐入真道</span>
@@ -455,6 +564,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
     </div>
     <div class="grid">
       <a class="card" href="第7节课_齐物论.html">
+        <span class="card-symbol" aria-hidden="true">齐</span>
         <span class="card-no">7</span>
         <span class="card-body">
           <span class="card-title">齐物论：人籁、地籁与天籁</span>
@@ -463,6 +573,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
         <span class="card-arrow">→</span>
       </a>
       <a class="card" href="第9节课_德充符.html">
+        <span class="card-symbol" aria-hidden="true">德</span>
         <span class="card-no">9</span>
         <span class="card-body">
           <span class="card-title">德充符：形有所忘，德有所长</span>
@@ -471,6 +582,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
         <span class="card-arrow">→</span>
       </a>
       <a class="card" href="第10节课_庄子杂篇.html">
+        <span class="card-symbol" aria-hidden="true">庄</span>
         <span class="card-no">10</span>
         <span class="card-body">
           <span class="card-title">庄子外篇三故事：心斋、虚船与骷髅之乐</span>
@@ -489,6 +601,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
     </div>
     <div class="grid">
       <a class="card" href="第12节课_密宗.html">
+        <span class="card-symbol" aria-hidden="true">密</span>
         <span class="card-no">12</span>
         <span class="card-body">
           <span class="card-title">密宗：从历史与文化的角度重新认识</span>
