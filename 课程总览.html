@@ -238,14 +238,8 @@ html.js .series.visible{opacity:1;transform:none}
   display:block;margin-top:3px;font-size:13px;color:var(--ink-soft);
   line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
 }
-.card-arrow{
-  flex:none;color:var(--gold);font-size:19px;font-family:Georgia,serif;
-  position:relative;z-index:1;
-  transition:transform .22s ease,color .22s ease;
-}
 .card:hover .card-title{color:var(--card-hover-title)}
 .card:hover .card-desc{color:var(--card-hover-soft)}
-.card:hover .card-arrow{transform:translateX(4px);color:#d3b779}
 .card:hover .card-no{border-color:#d3b779;color:#f2e7d0;background:rgba(211,183,121,.14)}
 .card-symbol{
   position:absolute;top:12px;right:14px;
@@ -264,7 +258,6 @@ html.js .series.visible{opacity:1;transform:none}
 .card.todo{opacity:.58;cursor:not-allowed}
 .card.todo .card-no{border-color:var(--muted);color:var(--muted)}
 .card.todo .card-title{color:var(--muted)}
-.card.todo .card-arrow{color:var(--muted)}
 
 /* 侧边竖排装饰 */
 .vtext{
@@ -455,7 +448,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
           <span class="card-title">三魂七魄：从生理与生活角度认识魂魄</span>
           <span class="card-desc">胎光 · 爽灵 · 幽精</span>
         </span>
-        <span class="card-arrow">→</span>
+        
       </a>
       <a class="card" href="第2节课_魂魄论道.html">
         <span class="card-symbol" aria-hidden="true">魄</span>
@@ -464,7 +457,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
           <span class="card-title">魂魄：从修道角度谈三魂七魄、元神与识神</span>
           <span class="card-desc">胎光为根，识神归位</span>
         </span>
-        <span class="card-arrow">→</span>
+        
       </a>
     </div>
   </section>
@@ -483,7 +476,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
           <span class="card-title">修真大门：从精气神谈筑基</span>
           <span class="card-desc">筑基与炼精化气</span>
         </span>
-        <span class="card-arrow">→</span>
+        
       </a>
       <a class="card" href="第8节课_财侣法地.html">
         <span class="card-symbol" aria-hidden="true">财</span>
@@ -492,7 +485,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
           <span class="card-title">财侣法地：修道的四个基础</span>
           <span class="card-desc">传承 · 同修 · 时间 · 环境</span>
         </span>
-        <span class="card-arrow">→</span>
+        
       </a>
     </div>
   </section>
@@ -511,7 +504,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
           <span class="card-title">太乙回光：吕祖的回光之法与顿悟根器</span>
           <span class="card-desc">回光守中，先止后观</span>
         </span>
-        <span class="card-arrow">→</span>
+        
       </a>
       <a class="card" href="第5节课_回光返照.html">
         <span class="card-symbol" aria-hidden="true">照</span>
@@ -520,7 +513,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
           <span class="card-title">回光返照：反照、垂帘与止观</span>
           <span class="card-desc">觅心法门，定慧双修</span>
         </span>
-        <span class="card-arrow">→</span>
+        
       </a>
       <a class="card" href="第11节课_生活回光法.html">
         <span class="card-symbol" aria-hidden="true">生</span>
@@ -529,7 +522,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
           <span class="card-title">生活回光法：事来应过，物来识破</span>
           <span class="card-desc">当境即回，日用即修行</span>
         </span>
-        <span class="card-arrow">→</span>
+        
       </a>
     </div>
   </section>
@@ -548,7 +541,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
           <span class="card-title">清静经：遣欲澄心，渐入真道</span>
           <span class="card-desc">六欲不生，三毒消灭</span>
         </span>
-        <span class="card-arrow">→</span>
+        
       </a>
     </div>
   </section>
@@ -567,7 +560,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
           <span class="card-title">齐物论：人籁、地籁与天籁</span>
           <span class="card-desc">未始有物，万物与我为一</span>
         </span>
-        <span class="card-arrow">→</span>
+        
       </a>
       <a class="card" href="第9节课_德充符.html">
         <span class="card-symbol" aria-hidden="true">德</span>
@@ -576,7 +569,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
           <span class="card-title">德充符：形有所忘，德有所长</span>
           <span class="card-desc">才全而德不形</span>
         </span>
-        <span class="card-arrow">→</span>
+        
       </a>
       <a class="card" href="第10节课_庄子杂篇.html">
         <span class="card-symbol" aria-hidden="true">庄</span>
@@ -585,7 +578,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
           <span class="card-title">庄子外篇三故事：心斋、虚船与骷髅之乐</span>
           <span class="card-desc">心斋 · 虚船 · 骷髅之乐</span>
         </span>
-        <span class="card-arrow">→</span>
+        
       </a>
     </div>
   </section>
@@ -604,7 +597,7 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
           <span class="card-title">密宗：从历史与文化的角度重新认识</span>
           <span class="card-desc">双身法 · 灌顶 · 大礼拜</span>
         </span>
-        <span class="card-arrow">→</span>
+        
       </a>
     </div>
   </section>
