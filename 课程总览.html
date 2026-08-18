@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>课程总览</title>
+<style>
+:root{
+  --paper:#f5efe2;
+  --paper2:#efe6d2;
+  --ink:#2b2723;
+  --ink-soft:#5f574b;
+  --muted:#8a7e6c;
+  --line:#d8ccb4;
+  --cinnabar:#9c3a28;
+  --cinnabar-deep:#7c2d1e;
+  --pine:#3f5a44;
+  --gold:#a8874b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:
+    radial-gradient(1200px 500px at 50% -120px, #fdf9ee 0%, rgba(253,249,238,0) 60%),
+    var(--paper);
+  color:var(--ink);
+  font-family:"Noto Serif SC","Source Han Serif SC","Songti SC",SimSun,serif;
+  line-height:1.9;
+  font-size:17px;
+  -webkit-font-smoothing:antialiased;
+}
+/* 宣纸纤维纹理 */
+body::before{
+  content:"";
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.5;
+  background-image:
+    repeating-linear-gradient(93deg, rgba(140,110,70,.018) 0 2px, transparent 2px 5px),
+    repeating-linear-gradient(4deg, rgba(140,110,70,.012) 0 1px, transparent 1px 4px);
+}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px 90px}
+
+/* ===== 卷首山水 ===== */
+.hero{
+  position:relative;
+  height:300px;
+  overflow:hidden;
+}
+.hero::after{
+  content:"";
+  position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+  width:640px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold) 22%,var(--gold) 78%,transparent);
+}
+.scene{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.moon{
+  position:absolute;right:9%;top:40px;width:84px;height:84px;border-radius:50%;
+  background:radial-gradient(circle at 38% 34%,#fdf4d8,#e9d5a4 62%,#d9bf86);
+  box-shadow:0 0 34px rgba(212,178,112,.42);
+}
+.moon::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 62% 58%,rgba(161,126,74,.28) 0 12%,transparent 13%);
+}
+.scene svg{position:absolute;left:0;right:0;bottom:0;width:100%;pointer-events:none}
+
+/* ===== 云纹分隔 ===== */
+.divider{display:flex;align-items:center;gap:18px;margin:40px 0 10px;color:var(--gold)}
+.divider::before,.divider::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--line))}
+.divider::after{background:linear-gradient(90deg,var(--line),transparent)}
+.divider svg{flex:none;width:118px;height:20px;overflow:visible}
+
+/* ===== 系列 ===== */
+.series{margin-top:54px}
+.series-head{display:flex;align-items:baseline;gap:16px;border-bottom:2px solid var(--cinnabar);padding-bottom:10px}
+.series-no{
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:20px;color:var(--cinnabar);font-weight:700;
+  border:1.5px solid var(--cinnabar);border-radius:6px;
+  padding:2px 9px;letter-spacing:.12em;
+}
+.series-name{font-size:25px;font-weight:700;letter-spacing:.12em;color:#342b23}
+.series-note{margin-left:auto;font-size:13px;color:var(--muted);letter-spacing:.08em}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:22px}
+.card{
+  display:flex;align-items:center;gap:16px;
+  background:linear-gradient(180deg,#fbf6ea,#f4ecda);
+  border:1px solid var(--line);border-radius:12px;
+  padding:18px 20px;text-decoration:none;color:inherit;
+  position:relative;overflow:hidden;
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+.card::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
+  background:var(--cinnabar);opacity:0;transition:opacity .22s ease;
+}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(74,56,34,.14);border-color:#c7b28c}
+.card:hover::before{opacity:1}
+.card-no{
+  flex:none;width:46px;height:46px;border-radius:50%;
+  border:1.5px solid var(--cinnabar);color:var(--cinnabar);
+  display:flex;align-items:center;justify-content:center;
+  font-family:Georgia,"Times New Roman",serif;font-size:17px;font-weight:700;
+  background:rgba(156,58,40,.05);
+}
+.card-body{flex:1;min-width:0}
+.card-title{font-size:17.5px;font-weight:700;letter-spacing:.03em;color:#312a22;line-height:1.5}
+.card-desc{margin-top:4px;font-size:13.5px;color:var(--ink-soft);line-height:1.6}
+.card-arrow{
+  flex:none;color:var(--gold);font-size:19px;font-family:Georgia,serif;
+  transition:transform .22s ease,color .22s ease;
+}
+.card:hover .card-arrow{transform:translateX(4px);color:var(--cinnabar)}
+
+.card.todo{opacity:.58;cursor:not-allowed}
+.card.todo .card-no{border-color:var(--muted);color:var(--muted)}
+.card.todo .card-title{color:var(--muted)}
+.card.todo .card-arrow{color:var(--muted)}
+
+/* 侧边竖排装饰 */
+.vtext{
+  position:fixed;right:22px;top:50%;transform:translateY(-50%);
+  writing-mode:vertical-rl;
+  color:rgba(139,125,102,.5);font-size:13px;letter-spacing:.5em;
+  font-family:"Kaiti SC","KaiTi","STKaiti",serif;
+  pointer-events:none;z-index:2;
+}
+
+/* ===== 页脚 ===== */
+footer{margin-top:76px;text-align:center;color:var(--muted);font-size:13.5px}
+footer .line{letter-spacing:.2em}
+
+@media (max-width:760px){
+  body{font-size:16px}
+  .wrap{padding:0 18px 70px}
+  .hero{height:190px}
+  .moon{width:54px;height:54px;right:6%;top:26px}
+  .grid{grid-template-columns:1fr;gap:14px}
+  .series-name{font-size:21px}
+  .vtext{display:none}
+}
+@media print{
+  .scene,.vtext{display:none!important}
+  .card{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<div class="vtext">道法自然 · 清净无为</div>
+
+<div class="wrap">
+
+  <!-- 卷首：水墨山水 -->
+  <header class="hero">
+    <h1 class="sr-only">课程总览</h1>
+    <div class="scene" aria-hidden="true">
+      <div class="moon"></div>
+      <svg viewBox="0 0 1000 240" preserveAspectRatio="xMidYMax meet" style="height:196px">
+        <path d="M0,240 L0,190 Q90,120 190,178 Q270,224 360,160 Q445,102 540,168 Q630,228 720,150 Q810,78 900,148 Q960,190 1000,170 L1000,240 Z" fill="#e2d8c2"/>
+        <path d="M0,240 L0,215 Q110,150 210,202 Q300,246 400,192 Q500,140 600,196 Q700,248 800,186 Q900,128 1000,196 L1000,240 Z" fill="#cabda0"/>
+        <path d="M0,240 L0,228 Q120,178 240,222 Q360,262 470,214 Q580,168 690,220 Q800,266 900,214 Q960,182 1000,212 L1000,240 Z" fill="#a99a7d"/>
+      </svg>
+      <svg viewBox="0 0 200 60" style="left:8%;top:14%;width:110px;opacity:.75" aria-hidden="true">
+        <path d="M12,34 Q28,16 46,32 Q62,46 82,30 Q100,16 120,32 Q138,46 158,28 Q176,12 192,26" fill="none" stroke="#a3957a" stroke-width="2.4" stroke-linecap="round"/>
+        <path d="M22,46 Q40,30 60,44 Q78,56 96,42 Q114,30 134,44 Q152,56 172,42 Q184,34 192,40" fill="none" stroke="#b5a889" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </header>
+
+  <!-- 云纹分隔 -->
+  <div class="divider" aria-hidden="true">
+    <svg viewBox="0 0 120 20">
+      <path d="M8,12 Q16,4 26,11 Q34,17 46,10 Q56,4 68,12 Q78,18 92,10 Q102,4 114,10" fill="none" stroke="#b09563" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="60" cy="10" r="2.2" fill="#b09563"/>
+    </svg>
+  </div>
+
+  <!-- 壹：魂魄与元神 -->
+  <section class="series">
+    <div class="series-head">
+      <span class="series-no">壹</span>
+      <span class="series-name">魂魄与元神</span>
+      <span class="series-note">三魂七魄 · 识神 · 胎光</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="第1节课_三魂七魄.html">
+        <span class="card-no">一</span>
+        <span class="card-body">
+          <span class="card-title">三魂七魄：从生理与生活角度认识魂魄</span>
+          <span class="card-desc">胎光、爽灵、幽精与七魄</span>
+        </span>
+        <span class="card-arrow">→</span>
+      </a>
+      <a class="card" href="第2节课_魂魄论道.html">
+        <span class="card-no">二</span>
+        <span class="card-body">
+          <span class="card-title">魂魄：从修道角度谈三魂七魄、元神与识神</span>
+          <span class="card-desc">胎光为根，爽灵、幽精各安其位</span>
+        </span>
+        <span class="card-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 贰：筑基与修道基础 -->
+  <section class="series">
+    <div class="series-head">
+      <span class="series-no">贰</span>
+      <span class="series-name">筑基与修道基础</span>
+      <span class="series-note">精气神 · 法侣财地</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="第3节课_修真大门.html">
+        <span class="card-no">三</span>
+        <span class="card-body">
+          <span class="card-title">修真大门：从精气神谈筑基</span>
+          <span class="card-desc">筑基、炼精化气与修真门槛</span>
+        </span>
+        <span class="card-arrow">→</span>
+      </a>
+      <a class="card" href="第8节课_财侣法地.html">
+        <span class="card-no">八</span>
+        <span class="card-body">
+          <span class="card-title">财侣法地：修道的四个基础</span>
+          <span class="card-desc">法为传承，侣为同修，财为时间，地为环境</span>
+        </span>
+        <span class="card-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 叁：回光法门 -->
+  <section class="series">
+    <div class="series-head">
+      <span class="series-no">叁</span>
+      <span class="series-name">太乙金华宗旨</span>
+      <span class="series-note">回光 · 止观 · 日用</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="第4节课_太乙回光.html">
+        <span class="card-no">四</span>
+        <span class="card-body">
+          <span class="card-title">太乙回光：吕祖的回光之法与顿悟根器</span>
+          <span class="card-desc">回光守中，先止后观</span>
+        </span>
+        <span class="card-arrow">→</span>
+      </a>
+      <a class="card" href="第5节课_回光返照.html">
+        <span class="card-no">五</span>
+        <span class="card-body">
+          <span class="card-title">回光返照：反照、垂帘与止观</span>
+          <span class="card-desc">觅心法门，定慧双修</span>
+        </span>
+        <span class="card-arrow">→</span>
+      </a>
+      <a class="card" href="第11节课_生活回光法.html">
+        <span class="card-no">十一</span>
+        <span class="card-body">
+          <span class="card-title">生活回光法：事来应过，物来识破</span>
+          <span class="card-desc">当境即回，日用即修行</span>
+        </span>
+        <span class="card-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 肆：清静经 -->
+  <section class="series">
+    <div class="series-head">
+      <span class="series-no">肆</span>
+      <span class="series-name">《清静经》讲解</span>
+      <span class="series-note">遣欲澄心 · 日课经典</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="第6节课_清静经.html">
+        <span class="card-no">六</span>
+        <span class="card-body">
+          <span class="card-title">清静经：遣欲澄心，渐入真道</span>
+          <span class="card-desc">六欲不生，三毒消灭</span>
+        </span>
+        <span class="card-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 伍：庄子 -->
+  <section class="series">
+    <div class="series-head">
+      <span class="series-no">伍</span>
+      <span class="series-name">《庄子》</span>
+      <span class="series-note">齐物 · 逍遥 · 养生</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="第7节课_齐物论.html">
+        <span class="card-no">七</span>
+        <span class="card-body">
+          <span class="card-title">齐物论：人籁、地籁与天籁</span>
+          <span class="card-desc">未始有物，万物与我为一</span>
+        </span>
+        <span class="card-arrow">→</span>
+      </a>
+      <a class="card" href="第9节课_德充符.html">
+        <span class="card-no">九</span>
+        <span class="card-body">
+          <span class="card-title">德充符：形有所忘，德有所长</span>
+          <span class="card-desc">才全而德不形，知不可奈何而安之若命</span>
+        </span>
+        <span class="card-arrow">→</span>
+      </a>
+      <a class="card" href="第10节课_庄子杂篇.html">
+        <span class="card-no">十</span>
+        <span class="card-body">
+          <span class="card-title">庄子外篇三故事：心斋、虚船与骷髅之乐</span>
+          <span class="card-desc">以天合天，虚己游世，为道日损</span>
+        </span>
+        <span class="card-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- 陆：密宗 -->
+  <section class="series">
+    <div class="series-head">
+      <span class="series-no">陆</span>
+      <span class="series-name">密宗</span>
+      <span class="series-note">科普 · 防骗 · 历史文化</span>
+    </div>
+    <div class="grid">
+      <a class="card" href="第12节课_密宗.html">
+        <span class="card-no">十二</span>
+        <span class="card-body">
+          <span class="card-title">密宗：从历史与文化的角度重新认识</span>
+          <span class="card-desc">双身法、灌顶、本尊与大礼拜</span>
+        </span>
+        <span class="card-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="line">致虚极，守静笃 · 为学日益，为道日损</div>
+  </footer>
+
+</div>
+</body>
+</html>

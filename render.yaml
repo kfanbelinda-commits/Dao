@@ -1,0 +1,6 @@
+# Render 静态站点配置：连接仓库后会自动按此配置部署
+services:
+  - type: web
+    name: dongyue-ge
+    runtime: static
+    staticPublishPath: .

@@ -1,0 +1,8 @@
+# 临时工作文件
+.codex-tmp/
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
