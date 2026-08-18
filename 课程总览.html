@@ -107,9 +107,11 @@ body::before{
   background:rgba(156,58,40,.05);
 }
 .card-body{flex:1;min-width:0}
-.card-title{font-size:17px;font-weight:700;letter-spacing:.02em;color:#312a22}
-.card-desc{font-size:13px;color:var(--ink-soft)}
-.card-desc::before{content:" · ";color:var(--gold);font-weight:700}
+.card-title{display:block;font-size:17px;font-weight:700;letter-spacing:.02em;color:#312a22;line-height:1.5}
+.card-desc{
+  display:block;margin-top:3px;font-size:13px;color:var(--ink-soft);
+  line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
 .card-arrow{
   flex:none;color:var(--gold);font-size:19px;font-family:Georgia,serif;
   transition:transform .22s ease,color .22s ease;
