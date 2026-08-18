@@ -1,6 +1,12 @@
-# Render 静态站点配置：连接仓库后会自动按此配置部署
+# Render 部署配置：连接仓库后会自动按此创建带密码的 Web 服务
 services:
   - type: web
     name: dongyue-ge
-    runtime: static
-    staticPublishPath: .
+    runtime: node
+    plan: free
+    buildCommand: ""
+    startCommand: node server.js
+    envVars:
+      # 访问密码：创建服务时 Render 会要求填写，不会写入代码或仓库
+      - key: SITE_PASSWORD
+        sync: false
