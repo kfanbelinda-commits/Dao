@@ -135,13 +135,7 @@ body::before{
 html.js .series{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s ease}
 html.js .series.visible{opacity:1;transform:none}
 .series-head{display:flex;align-items:baseline;gap:16px;border-bottom:2px solid var(--cinnabar);padding-bottom:10px}
-.series-no{
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:20px;color:var(--cinnabar);font-weight:700;
-  border:1.5px solid var(--cinnabar);border-radius:6px;
-  padding:2px 9px;letter-spacing:.12em;
-}
-.series-name{font-size:25px;font-weight:700;letter-spacing:.12em;color:#342b23}
+.series-name{font-size:25px;font-weight:700;letter-spacing:.12em;color:var(--head-title)}
 .series-note{margin-left:auto;font-size:13px;color:var(--muted);letter-spacing:.08em}
 
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:22px}
@@ -224,7 +218,6 @@ html.js .series.visible{opacity:1;transform:none}
   transition:color .2s ease,background .2s ease;
   white-space:nowrap;
 }
-.quicknav a .qn-no{font-family:Georgia,"Times New Roman",serif;color:var(--gold);font-size:12px;font-weight:700}
 .quicknav a:hover{color:var(--cinnabar)}
 .quicknav a.active{background:var(--cinnabar-soft);color:var(--cinnabar);font-weight:700}
 .quicknav a:focus-visible{outline:2px solid var(--cinnabar);outline-offset:2px}
@@ -306,12 +299,12 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
 
 <nav class="quicknav" id="quicknav" aria-label="课程分组导航">
   <div class="quicknav-inner">
-    <a href="#s1"><span class="qn-no">壹</span>魂魄与元神</a>
-    <a href="#s2"><span class="qn-no">贰</span>筑基与修道基础</a>
-    <a href="#s3"><span class="qn-no">叁</span>《太乙金华宗旨》</a>
-    <a href="#s4"><span class="qn-no">肆</span>《清静经》讲解</a>
-    <a href="#s5"><span class="qn-no">伍</span>《庄子》</a>
-    <a href="#s6"><span class="qn-no">陆</span>密宗</a>
+    <a href="#s1">魂魄与元神</a>
+    <a href="#s2">筑基与修道基础</a>
+    <a href="#s3">《太乙金华宗旨》</a>
+    <a href="#s4">《清静经》讲解</a>
+    <a href="#s5">《庄子》</a>
+    <a href="#s6">密宗</a>
   </div>
 </nav>
 
@@ -353,7 +346,6 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
   <!-- 壹：魂魄与元神 -->
   <section class="series" id="s1">
     <div class="series-head">
-      <span class="series-no">壹</span>
       <span class="series-name">魂魄与元神</span>
       <span class="series-note">三魂七魄 · 识神 · 胎光</span>
     </div>
@@ -380,7 +372,6 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
   <!-- 贰：筑基与修道基础 -->
   <section class="series" id="s2">
     <div class="series-head">
-      <span class="series-no">贰</span>
       <span class="series-name">筑基与修道基础</span>
       <span class="series-note">精气神 · 法侣财地</span>
     </div>
@@ -407,7 +398,6 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
   <!-- 叁：回光法门 -->
   <section class="series" id="s3">
     <div class="series-head">
-      <span class="series-no">叁</span>
       <span class="series-name">《太乙金华宗旨》</span>
       <span class="series-note">回光 · 止观 · 日用</span>
     </div>
@@ -442,7 +432,6 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
   <!-- 肆：清静经 -->
   <section class="series" id="s4">
     <div class="series-head">
-      <span class="series-no">肆</span>
       <span class="series-name">《清静经》讲解</span>
       <span class="series-note">遣欲澄心 · 日课经典</span>
     </div>
@@ -461,7 +450,6 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
   <!-- 伍：庄子 -->
   <section class="series" id="s5">
     <div class="series-head">
-      <span class="series-no">伍</span>
       <span class="series-name">《庄子》</span>
       <span class="series-note">齐物 · 逍遥 · 养生</span>
     </div>
@@ -496,7 +484,6 @@ footer .seal-line::after{background:linear-gradient(90deg,var(--line),transparen
   <!-- 陆：密宗 -->
   <section class="series" id="s6">
     <div class="series-head">
-      <span class="series-no">陆</span>
       <span class="series-name">密宗</span>
       <span class="series-note">科普 · 防骗 · 历史文化</span>
     </div>
