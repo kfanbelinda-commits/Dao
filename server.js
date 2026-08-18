@@ -35,12 +35,11 @@ const LOGIN_PAGE = `<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>东岳阁 · 浏览密码</title>
+<title>浏览密码</title>
 <style>
 body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f5efe2;font-family:"Noto Serif SC","Songti SC",SimSun,serif;color:#2b2723}
 .card{background:#fbf6ea;border:1px solid #d8ccb4;border-radius:12px;padding:42px 46px;width:min(92vw,360px);text-align:center;box-shadow:0 10px 30px rgba(74,56,34,.12)}
-h1{font-size:20px;letter-spacing:.18em;margin:0 0 6px}
-p{color:#8a7e6c;font-size:13px;margin:0 0 24px}
+p{color:#2b2723;font-size:17px;letter-spacing:.2em;margin:0 0 24px}
 input{width:100%;box-sizing:border-box;padding:12px 14px;font-size:16px;border:1px solid #c9bda5;border-radius:8px;background:#fffdf6;text-align:center;letter-spacing:.2em;outline:none}
 input:focus{border-color:#9c3a28}
 button{margin-top:16px;width:100%;padding:12px;font-size:16px;letter-spacing:.3em;background:#9c3a28;color:#f7eeda;border:none;border-radius:8px;cursor:pointer;font-family:inherit}
@@ -50,7 +49,6 @@ button:hover{background:#7c2d1e}
 </head>
 <body>
 <div class="card">
-<h1>东岳阁</h1>
 <p>请输入浏览密码</p>
 <form method="post" action="/login">
 <input type="password" name="password" placeholder="密码" autofocus autocomplete="current-password">
