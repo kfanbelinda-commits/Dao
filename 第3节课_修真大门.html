@@ -317,6 +317,7 @@ function blocks(){return [...document.querySelectorAll('.page-inner>*')].map(el=
   const raw=el.tagName==='ASIDE'?el.innerText:el.textContent;
   return {k:el.tagName==='ASIDE'?'note':el.tagName.toLowerCase(),t:el.tagName==='ASIDE'?noteNorm(raw):norm(raw)};
 })}
+function fingerprint(){return [...document.querySelectorAll('.page-inner>h2,.page-inner>h3')].map(e=>norm(e.textContent)).join('|')}
 function applyBlocks(bs){
   const inner=document.querySelector('.page-inner');
   inner.innerHTML='';
@@ -379,7 +380,7 @@ document.querySelector('.page-inner').addEventListener('keydown',(e)=>{
 });
 let saved=null;
 try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){saved=null}
-if(saved&&Array.isArray(saved.blocks)&&saved.blocks.length>0)applyBlocks(saved.blocks);
+if(saved&&Array.isArray(saved.blocks)&&saved.blocks.length>0&&saved.fp===fingerprint())applyBlocks(saved.blocks);
 const btnEdit=document.getElementById('btnEdit'),btnReset=document.getElementById('btnReset'),btnNote=document.getElementById('btnNote'),btnAddNote=document.getElementById('btnAddNote'),btnDel=document.getElementById('btnDel');
 const editing=()=>document.body.classList.contains('editing');
 function enterEdit(){document.body.classList.add('editing');selAll().forEach(e=>e.contentEditable='true');btnEdit.textContent='✓ 保存'}
@@ -397,7 +398,7 @@ btnEdit.addEventListener('click',()=>{
   const cur=JSON.stringify(bs);
   const prev=saved?JSON.stringify(saved.blocks):null;
   if(prev!==cur){
-    localStorage.setItem(KEY,JSON.stringify({blocks:bs}));
+    localStorage.setItem(KEY,JSON.stringify({blocks:bs,fp:fingerprint()}));
     const md=bs.map(b=>{
       const t=b.t;if(!t)return'';
       if(b.k==='h1')return'# '+t;
