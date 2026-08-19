@@ -262,6 +262,7 @@ window.addEventListener('scroll',()=>{
 },{passive:true});
 window.dispatchEvent(new Event('scroll'));
 const KEY='dao-edit-v1-'+document.title;
+const GEN='1787126957';
 const MD_NAME='第12节课_密宗_忠实精校稿.md';
 const selAll=()=>[...document.querySelectorAll('.page-inner>h2,.page-inner>h3,.page-inner>p,.page-inner>aside.note')];
 const norm=t=>t.replace(/\s+/g,' ').trim();
@@ -333,7 +334,8 @@ document.querySelector('.page-inner').addEventListener('keydown',(e)=>{
 });
 let saved=null;
 try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){saved=null}
-if(saved&&Array.isArray(saved.blocks)&&saved.blocks.length>0&&saved.fp===fingerprint())applyBlocks(saved.blocks);
+if(saved&&Array.isArray(saved.blocks)&&saved.blocks.length>0&&saved.fp===fingerprint()&&saved.gen===GEN)applyBlocks(saved.blocks);
+else if(saved)localStorage.removeItem(KEY);
 const btnEdit=document.getElementById('btnEdit'),btnReset=document.getElementById('btnReset'),btnNote=document.getElementById('btnNote'),btnAddNote=document.getElementById('btnAddNote'),btnDel=document.getElementById('btnDel');
 const editing=()=>document.body.classList.contains('editing');
 function enterEdit(){document.body.classList.add('editing');selAll().forEach(e=>e.contentEditable='true');btnEdit.textContent='✓ 保存'}
@@ -351,7 +353,7 @@ btnEdit.addEventListener('click',()=>{
   const cur=JSON.stringify(bs);
   const prev=saved?JSON.stringify(saved.blocks):null;
   if(prev!==cur){
-    localStorage.setItem(KEY,JSON.stringify({blocks:bs,fp:fingerprint()}));
+    localStorage.setItem(KEY,JSON.stringify({blocks:bs,fp:fingerprint(),gen:GEN}));
     const md=bs.map(b=>{
       const t=b.t;if(!t)return'';
       if(b.k==='h1')return'# '+t;
