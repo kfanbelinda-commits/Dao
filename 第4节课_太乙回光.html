@@ -40,6 +40,7 @@ body.editing .page-inner p,body.editing .page-inner aside.note{outline:1px dashe
 body.editing .page-inner h2,body.editing .page-inner h3{outline:1px dashed #9a8b6f;outline-offset:5px;border-radius:4px;cursor:text}
 .editbtn.only-edit{display:none}
 body.editing .editbtn.only-edit{display:inline-block}
+body.editing .page-inner aside.note:empty::after{content:'（在此输入引用文字…）';color:#b0a08c}
 @media(max-width:860px){.editbar{right:10px;bottom:10px}.editbtn{padding:7px 12px;font-size:13px}}
 </style>
 </head>
@@ -47,6 +48,7 @@ body.editing .editbtn.only-edit{display:inline-block}
 <div class="editbar">
 <button class="editbtn primary" id="btnEdit" type="button">✏️ 修改</button>
 <button class="editbtn only-edit" id="btnNote" type="button">▣ 高亮框</button>
+<button class="editbtn only-edit" id="btnAddNote" type="button">➕ 新增高亮框</button>
 <button class="editbtn only-edit" id="btnDel" type="button">🗑 删除标题</button>
 <button class="editbtn" id="btnReset" type="button">↺ 恢复原文</button>
 </div>
@@ -228,7 +230,7 @@ function applyBlocks(bs){
 let saved=null;
 try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){saved=null}
 if(saved&&Array.isArray(saved.blocks)&&saved.blocks.length>0)applyBlocks(saved.blocks);
-const btnEdit=document.getElementById('btnEdit'),btnReset=document.getElementById('btnReset'),btnNote=document.getElementById('btnNote'),btnDel=document.getElementById('btnDel');
+const btnEdit=document.getElementById('btnEdit'),btnReset=document.getElementById('btnReset'),btnNote=document.getElementById('btnNote'),btnAddNote=document.getElementById('btnAddNote'),btnDel=document.getElementById('btnDel');
 const editing=()=>document.body.classList.contains('editing');
 function enterEdit(){document.body.classList.add('editing');selAll().forEach(e=>e.contentEditable='true');btnEdit.textContent='✓ 保存'}
 function exitEdit(){document.body.classList.remove('editing');selAll().forEach(e=>e.contentEditable='false');btnEdit.textContent='✏️ 修改'}
@@ -274,6 +276,22 @@ btnNote.addEventListener('click',()=>{
   n.contentEditable='true';
   node.replaceWith(n);
   document.getSelection().removeAllRanges();
+});
+btnAddNote.addEventListener('click',()=>{
+  const inner=document.querySelector('.page-inner');
+  const aside=document.createElement('aside');
+  aside.className='note';
+  aside.contentEditable='true';
+  const node=blockOf(document.getSelection());
+  if(node&&inner.contains(node))node.after(aside);
+  else inner.appendChild(aside);
+  const sel=document.getSelection();
+  const r=document.createRange();
+  r.selectNodeContents(aside);
+  r.collapse(false);
+  sel.removeAllRanges();
+  sel.addRange(r);
+  aside.focus();
 });
 btnDel.addEventListener('click',()=>{
   const node=blockOf(document.getSelection());
