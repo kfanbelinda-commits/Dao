@@ -37,12 +37,15 @@
 .editbtn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
 .editbtn:hover{filter:brightness(.96)}
 body.editing .page-inner p,body.editing .page-inner aside.note{outline:1px dashed #b98a5f;outline-offset:5px;border-radius:4px;cursor:text}
+.editbtn.only-edit{display:none}
+body.editing .editbtn.only-edit{display:inline-block}
 @media(max-width:860px){.editbar{right:10px;bottom:10px}.editbtn{padding:7px 12px;font-size:13px}}
 </style>
 </head>
 <body>
 <div class="editbar">
 <button class="editbtn primary" id="btnEdit" type="button">✏️ 修改</button>
+<button class="editbtn only-edit" id="btnNote" type="button">▣ 高亮框</button>
 <button class="editbtn" id="btnReset" type="button">↺ 恢复原文</button>
 </div>
 <button class="menu" type="button" aria-controls="toc" aria-expanded="false">☰ 目录</button>
@@ -206,10 +209,23 @@ const origTexts=editable.map(e=>e.textContent.replace(/\s+/g,' ').trim());
 let saved=null;
 try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){saved=null}
 if(saved&&saved.n===editable.length){
-  saved.texts.forEach((t,i)=>{if(t!=null&&editable[i])editable[i].textContent=t});
+  saved.texts.forEach((t,i)=>{
+    const el=editable[i];
+    if(!el)return;
+    if(saved.kinds&&saved.kinds[i]!==(el.tagName==='ASIDE'?'note':'p')){
+      const tag=saved.kinds[i]==='note'?'aside':'p';
+      const n=document.createElement(tag);
+      if(tag==='aside')n.className='note';
+      n.textContent=t!=null?t:el.textContent;
+      el.replaceWith(n);
+      return;
+    }
+    if(t!=null)el.textContent=t;
+  });
 }
-const btnEdit=document.getElementById('btnEdit'),btnReset=document.getElementById('btnReset');
-function currentTexts(){return editable.map(e=>e.textContent.replace(/\s+/g,' ').trim())}
+const btnEdit=document.getElementById('btnEdit'),btnReset=document.getElementById('btnReset'),btnNote=document.getElementById('btnNote');
+function currentEls(){return [...document.querySelectorAll('.page-inner p,.page-inner aside.note')]}
+function currentTexts(){return currentEls().map(e=>e.textContent.replace(/\s+/g,' ').trim())}
 function exitEdit(){document.body.classList.remove('editing');editable.forEach(e=>e.contentEditable='false');btnEdit.textContent='✏️ 修改'}
 btnEdit.addEventListener('click',()=>{
   if(!document.body.classList.contains('editing')){
@@ -222,7 +238,8 @@ btnEdit.addEventListener('click',()=>{
   const diff=origTexts.map((t,i)=>cur[i]!==t?cur[i]:null);
   const changed=diff.some(t=>t!=null);
   if(changed){
-    localStorage.setItem(KEY,JSON.stringify({n:editable.length,texts:diff}));
+    const kinds=currentEls().map(e=>e.tagName==='ASIDE'?'note':'p');
+    localStorage.setItem(KEY,JSON.stringify({n:editable.length,texts:diff,kinds:kinds}));
     const parts=[];
     document.querySelectorAll('.page-inner>*').forEach(el=>{
       const t=el.textContent.replace(/\s+/g,' ').trim();
@@ -242,6 +259,20 @@ btnEdit.addEventListener('click',()=>{
     alert('已保存到本机，并下载了编辑稿（文件名与原稿相同，可直接覆盖）。');
   }
   exitEdit();
+});
+btnNote.addEventListener('click',()=>{
+  const sel=document.getSelection();
+  let node=sel&&sel.anchorNode?sel.anchorNode:null;
+  while(node&&node.nodeType===3)node=node.parentNode;
+  while(node&&!(node.tagName==='P'||node.tagName==='ASIDE'))node=node.parentNode;
+  if(!node)return;
+  const toAside=node.tagName!=='ASIDE';
+  const n=document.createElement(toAside?'aside':'p');
+  if(toAside)n.className='note';
+  n.textContent=node.textContent;
+  n.contentEditable='true';
+  node.replaceWith(n);
+  sel.removeAllRanges();
 });
 btnReset.addEventListener('click',()=>{
   localStorage.removeItem(KEY);
