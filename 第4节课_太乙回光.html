@@ -31,10 +31,20 @@
 .home{display:none;position:fixed;top:14px;right:14px;z-index:40;border:1px solid var(--line);border-radius:999px;background:#fffaf0;color:var(--accent);padding:9px 16px;font:600 15px system-ui,sans-serif;box-shadow:0 4px 16px #5a433222;text-decoration:none}
 @media(max-width:860px){body{font-size:17px}.menu{display:block}.home{display:block}.toc{width:min(88vw,340px);transform:translateX(-103%);transition:transform .24s ease;box-shadow:10px 0 34px #39291c33}.toc.open{transform:none}.shade{position:fixed;inset:0;background:#1f170f66;z-index:15}.shade.open{display:block}.page{margin-left:0;padding:74px 20px 84px}.page-inner{max-width:680px}h1{font-size:29px}h2{font-size:22px;margin-top:46px}p{text-align:left}.note{font-size:14px}}
 @media(min-width:861px) and (max-width:1180px){.toc{width:262px}.page{margin-left:262px;padding-left:42px;padding-right:42px}}
-@media print{.toc,.menu,.shade,.home{display:none!important}.page{margin:0;max-width:none;padding:0}body{background:#fff}}
+@media print{.toc,.menu,.shade,.home,.editbar{display:none!important}.page{margin:0;max-width:none;padding:0}body{background:#fff}}
+.editbar{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:50}
+.editbtn{border:1px solid var(--line);border-radius:999px;background:#fffaf0;color:var(--accent);padding:8px 15px;font:600 14px system-ui,sans-serif;box-shadow:0 4px 16px #5a433222;cursor:pointer;transition:background .2s ease}
+.editbtn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.editbtn:hover{filter:brightness(.96)}
+body.editing .page-inner p,body.editing .page-inner aside.note{outline:1px dashed #b98a5f;outline-offset:5px;border-radius:4px;cursor:text}
+@media(max-width:860px){.editbar{right:10px;bottom:10px}.editbtn{padding:7px 12px;font-size:13px}}
 </style>
 </head>
 <body>
+<div class="editbar">
+<button class="editbtn primary" id="btnEdit" type="button">✏️ 修改</button>
+<button class="editbtn" id="btnReset" type="button">↺ 恢复原文</button>
+</div>
 <button class="menu" type="button" aria-controls="toc" aria-expanded="false">☰ 目录</button>
 <a class="home" href="课程总览.html">主目录</a>
 <nav class="toc" id="toc" aria-label="文章目录">
@@ -189,5 +199,52 @@ window.addEventListener('scroll',()=>{
   links.forEach(a=>a.classList.toggle('active',cur&&a.getAttribute('href')==='#'+cur.id));
 },{passive:true});
 window.dispatchEvent(new Event('scroll'));
+const editable=[...document.querySelectorAll('.page-inner p,.page-inner aside.note')];
+const KEY='dao-edit-v1-'+document.title;
+const origTexts=editable.map(e=>e.textContent.replace(/\s+/g,' ').trim());
+let saved=null;
+try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){saved=null}
+if(saved&&saved.n===editable.length){
+  saved.texts.forEach((t,i)=>{if(t!=null&&editable[i])editable[i].textContent=t});
+}
+const btnEdit=document.getElementById('btnEdit'),btnReset=document.getElementById('btnReset');
+function currentTexts(){return editable.map(e=>e.textContent.replace(/\s+/g,' ').trim())}
+function exitEdit(){document.body.classList.remove('editing');editable.forEach(e=>e.contentEditable='false');btnEdit.textContent='✏️ 修改'}
+btnEdit.addEventListener('click',()=>{
+  if(!document.body.classList.contains('editing')){
+    document.body.classList.add('editing');
+    editable.forEach(e=>e.contentEditable='true');
+    btnEdit.textContent='✓ 保存';
+    return;
+  }
+  const cur=currentTexts();
+  const diff=origTexts.map((t,i)=>cur[i]!==t?cur[i]:null);
+  const changed=diff.some(t=>t!=null);
+  if(changed){
+    localStorage.setItem(KEY,JSON.stringify({n:editable.length,texts:diff}));
+    const parts=[];
+    document.querySelectorAll('.page-inner>*').forEach(el=>{
+      const t=el.textContent.replace(/\s+/g,' ').trim();
+      if(!t)return;
+      if(el.tagName==='H1')parts.push('# '+t);
+      else if(el.tagName==='H2')parts.push('## '+t);
+      else if(el.tagName==='H3')parts.push('### '+t);
+      else if(el.tagName==='ASIDE')parts.push('> '+t);
+      else parts.push(t);
+    });
+    const blob=new Blob([parts.join('\n\n')+'\n'],{type:'text/markdown;charset=utf-8'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=document.title.replace(/[\\/:*?"<>|]/g,'_')+'_编辑稿.md';
+    document.body.appendChild(a);a.click();a.remove();
+    URL.revokeObjectURL(a.href);
+    alert('已保存到本机，并下载了编辑稿 Markdown。');
+  }
+  exitEdit();
+});
+btnReset.addEventListener('click',()=>{
+  localStorage.removeItem(KEY);
+  location.reload();
+});
 </script>
 </body></html>
