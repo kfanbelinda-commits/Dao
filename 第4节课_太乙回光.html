@@ -210,7 +210,11 @@ const KEY='dao-edit-v1-'+document.title;
 const MD_NAME='第4节课_太乙回光_忠实精校稿.md';
 const selAll=()=>[...document.querySelectorAll('.page-inner>h2,.page-inner>h3,.page-inner>p,.page-inner>aside.note')];
 const norm=t=>t.replace(/\s+/g,' ').trim();
-function blocks(){return [...document.querySelectorAll('.page-inner>*')].map(el=>({k:el.tagName==='ASIDE'?'note':el.tagName.toLowerCase(),t:norm(el.textContent)}))}
+function noteNorm(t){return t.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').map(s=>s.trim()).join('\n').replace(/\n{3,}/g,'\n\n').trim()}
+function blocks(){return [...document.querySelectorAll('.page-inner>*')].map(el=>{
+  const raw=el.tagName==='ASIDE'?el.innerText:el.textContent;
+  return {k:el.tagName==='ASIDE'?'note':el.tagName.toLowerCase(),t:el.tagName==='ASIDE'?noteNorm(raw):norm(raw)};
+})}
 function applyBlocks(bs){
   const inner=document.querySelector('.page-inner');
   inner.innerHTML='';
@@ -220,9 +224,9 @@ function applyBlocks(bs){
     if(b.k==='h1'){el=document.createElement('h1');el.id='section-0'}
     else if(b.k==='h2'){sec+=1;el=document.createElement('h2');el.id='section-'+sec}
     else if(b.k==='h3'){sec+=1;el=document.createElement('h3');el.id='section-'+sec}
-    else if(b.k==='note'){el=document.createElement('aside');el.className='note'}
+    else if(b.k==='note'){el=document.createElement('aside');el.className='note';el.innerHTML=b.t.replace(/\n/g,'<br>')}
     else el=document.createElement('p');
-    el.textContent=b.t;
+    if(b.k!=='note')el.textContent=b.t;
     inner.appendChild(el);
   });
   rebuildToc();
@@ -289,7 +293,7 @@ btnEdit.addEventListener('click',()=>{
       if(b.k==='h1')return'# '+t;
       if(b.k==='h2')return'## '+t;
       if(b.k==='h3')return'### '+t;
-      if(b.k==='note')return'> '+t;
+      if(b.k==='note')return t.split('\n').map(l=>l===''?'>':' > '+l).join('\n');
       return t;
     }).filter(x=>x!=='').join('\n\n')+'\n';
     const blob=new Blob([md],{type:'text/markdown;charset=utf-8'});
