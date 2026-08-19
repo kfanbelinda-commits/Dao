@@ -31,10 +31,27 @@
 .home{display:none;position:fixed;top:14px;right:14px;z-index:40;border:1px solid var(--line);border-radius:999px;background:#fffaf0;color:var(--accent);padding:9px 16px;font:600 15px system-ui,sans-serif;box-shadow:0 4px 16px #5a433222;text-decoration:none}
 @media(max-width:860px){body{font-size:17px}.menu{display:block}.home{display:block}.toc{width:min(88vw,340px);transform:translateX(-103%);transition:transform .24s ease;box-shadow:10px 0 34px #39291c33}.toc.open{transform:none}.shade{position:fixed;inset:0;background:#1f170f66;z-index:15}.shade.open{display:block}.page{margin-left:0;padding:74px 20px 84px}.page-inner{max-width:680px}h1{font-size:29px}h2{font-size:22px;margin-top:46px}p{text-align:left}.note{font-size:14px}}
 @media(min-width:861px) and (max-width:1180px){.toc{width:262px}.page{margin-left:262px;padding-left:42px;padding-right:42px}}
-@media print{.toc,.menu,.shade,.home{display:none!important}.page{margin:0;max-width:none;padding:0}body{background:#fff}}
+@media print{.toc,.menu,.shade,.home,.editbar{display:none!important}.page{margin:0;max-width:none;padding:0}body{background:#fff}}
+.editbar{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:50}
+.editbtn{border:1px solid var(--line);border-radius:999px;background:#fffaf0;color:var(--accent);padding:8px 15px;font:600 14px system-ui,sans-serif;box-shadow:0 4px 16px #5a433222;cursor:pointer;transition:background .2s ease}
+.editbtn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.editbtn:hover{filter:brightness(.96)}
+body.editing .page-inner p,body.editing .page-inner aside.note{outline:1px dashed #b98a5f;outline-offset:5px;border-radius:4px;cursor:text}
+body.editing .page-inner h2,body.editing .page-inner h3{outline:1px dashed #9a8b6f;outline-offset:5px;border-radius:4px;cursor:text}
+.editbtn.only-edit{display:none}
+body.editing .editbtn.only-edit{display:inline-block}
+body.editing .page-inner aside.note:empty::after{content:'（在此输入引用文字…）';color:#b0a08c}
+@media(max-width:860px){.editbar{right:10px;bottom:10px}.editbtn{padding:7px 12px;font-size:13px}}
 </style>
 </head>
 <body>
+<div class="editbar">
+<button class="editbtn primary" id="btnEdit" type="button">✏️ 修改</button>
+<button class="editbtn only-edit" id="btnNote" type="button">▣ 高亮框</button>
+<button class="editbtn only-edit" id="btnAddNote" type="button">➕ 新增高亮框</button>
+<button class="editbtn only-edit" id="btnDel" type="button">🗑 删除</button>
+<button class="editbtn" id="btnReset" type="button">↺ 恢复原文</button>
+</div>
 <button class="menu" type="button" aria-controls="toc" aria-expanded="false">☰ 目录</button>
 <a class="home" href="课程总览.html">主目录</a>
 <nav class="toc" id="toc" aria-label="文章目录">
@@ -102,7 +119,7 @@
 <p>我们站桩、持诵某些经典、念经、动功的时候，只要在修炼，嘴里就会不自觉地产生一些口水。这个时候我跟大家说：这口水不能吐，要咽下去。这口水可不敢吐，这是玉液，比人参还要补。真的练得好了，产生的玉液能量非常大补：那一小口玉液，不仅能够滋养脾胃，还能够炼化精气，是大补中的大补。</p>
 <h2 id="section-4">四、玉液：修炼中的津液</h2>
 <p>我们观察一下自己：有些人早上起来会感到口苦。这说明肝胆功能弱，是脏腑失调。如果一个人脏腑失调、身体差、肝胆功能弱，就达不到“<span class="quote">有效坐</span>”。什么叫有效坐？有效的打坐，叫有效坐。比如说我们修炼20分钟，姑且说成一座；想要身心清净、产生一口真气、产生这个玉液，首先身体就得要好。</p>
-<p>这就是修命功的第一个原理：为什么要修命。如果身体特别差，透支特别严重，肝胆功能不好，口苦，化不了玉液，炼精化气就没有办法进行，这是一个无法逃避的问题。刘亦婷去找我师父的时候，师父就说了：想走修道的仙道路径，命功必练。为什么必练？如果身体亏空严重，肝脏、肾脏功能各种有问题，炼精化气就没办法进行，筑基就筑不了。</p>
+<p>这就是修命功的第一个原理：为什么要修命。如果身体特别差，透支特别严重，肝胆功能不好，口苦，化不了玉液，炼精化气就没有办法进行，这是一个无法逃避的问题。刘师弟去找我师父的时候，师父就说了：想走修道的仙道路径，命功必练。为什么必练？如果身体亏空严重，肝脏、肾脏功能各种有问题，炼精化气就没办法进行，筑基就筑不了。</p>
 <p>一旦身体不好，就没办法进入有效坐；在没办法进入有效坐之前，连正经的筑基都筑不了，就要先补。怎么补？后天补先天。先天不足，就后天补先天。怎么补？站桩、动功、早睡早起、锻炼身体、排浊养生，其实就是这个逻辑。有些大门大派有丹药拿给弟子吃，真的有丹药。有些丹药是口服的，可以理解成类似中药的汤药、汤方，一边练功一边吃，加快新陈代谢、排毒、恢复脏腑功能。还有一些外用的丹药，比如我师父当年给我们磨了一个粉，粉色的粉，我们每天和点水把粉搓成球，用医药纱布贴在肚脐眼上、塞到肚脐眼里，贴一天一夜再练功，身体机能恢复得特别好。身体比较好的情况，就另当别论了。</p>
 <p>练功时产生的口水，我们管它叫津液，也叫玉液。为什么说玉液还丹？还的是哪个丹？下丹田。玉液从哪里来？玉液就是真气所化。真气从哪里来？身心清净，或者修炼某种特定的功法——比如站桩——也可以化真气，这是我们先天的功能。</p>
 <h3 id="section-5">1. 玉液怎么咽</h3>
@@ -198,12 +215,12 @@
 <p>经脉气血的运行就像水管：水管里要有水才能一直通畅，干了、没水了，长此以往就会生锈、堵塞，慢慢就坏了。想要疏通水管，就要敲打敲打，把铁锈排出去。刀也要磨，磨一磨才好用，不磨就锈了。人体也是这样：肌肉不练就萎缩。我前两天找康复师，说我肌肉萎缩，腰背部到屁股那块肌肉平时练不到，他让我练，练一练就好了。</p>
 <p>我们的精气、心神如果不去锻炼，同样也在走向消耗：从孩童时期开始生发、慢慢成长，过了20多岁的鼎盛时期就开始耗泄，耗泄完什么时候死。修行之人得了长生之术，不仅不耗，反而给它补回来，有各种神通妙法，最后长生百年、证得人仙；更有得大丹道者，不仅长生，而且修元神、修阳神，修炼到更高的境界，得以飞升，超越欲界、超越人世间。说来说去，基础就是气脉疏通，就是筑基。所以对有些人来说100天足够，对有些人来说100天远远不够，这就是所谓的根器。根器从几个方面讲：身体、心性。有些人小心眼，修得也慢，不够通达；有些人心理状态挺好，但从小营养不良，身体有问题，那也没办法。</p>
 <p>人生难得，正法难遇；遇到了，还不好修，尘世间的羁绊多、事多。有人跟我说：远师，我要跟你修行。你对修行没概念的；你要跟我修行，我给你整这一套，你受得了吗？三哥问我，为什么别人拜你你不收？我真不能收。有些同行天天收，收了就教点法，跟你扯扯犊子，你就练吧，练什么也说不清楚。我是知道这里面门路的，最起码前期的门路我一定是知晓的，我自己走过这个路。你说谁要跟我修道，来了我也不会不教东西，但教你东西你又不知道这个链条，没有意义。而且真的很难，不管性功还是命功，两者都很难。所以我说我不收徒，你们真想修，直接找我师父去。我没那个耐心，也没那个水平；给你讲讲可以，当个先生、答疑解惑、分享交流可以，你让我教你，我教不了。你过来两天，别说3500座，350座你就得跑了。</p>
-<p>所以你看，刘亦婷去找我师父的时候，师父就说了：你以后最好别结婚。她那会儿还愣了一下。现在结了，没法了，太乙大法没法修。</p>
+<p>所以你看，刘师弟去找我师父的时候，师父就说了：你以后最好别结婚。他那会儿还愣了一下。现在结了，没法了，太乙大法没法修。</p>
 <h3 id="section-26">1. 有传承，速度完全不同</h3>
-<p>大家不要那么绝望，包括刘亦婷。其实没有想象中那么恐怖：我们讲的这个，是最基础的法门，它要讲“<span class="quote">法</span>”的。你如果没有殊胜的传承，普通人修，这就是“<span class="quote">凡人修仙传</span>”的逻辑，一个大众化的模板，大概就是这样。</p>
+<p>大家不要那么绝望，包括刘师弟。其实没有想象中那么恐怖：我们讲的这个，是最基础的法门，它要讲“<span class="quote">法</span>”的。你如果没有殊胜的传承，普通人修，这就是“<span class="quote">凡人修仙传</span>”的逻辑，一个大众化的模板，大概就是这样。</p>
 <p>如果得遇名师，你拜到吕洞宾门下了，人家教你那个东西，那可快，很快。我师父当年就说：身体健康的人来我这儿，要不了100天，每天六小时；哪怕你这些东西都破过戒，也要不了100天，有特殊的法门。一个特别好的师父，会根据徒弟的根器、心性来教，有招。不然我当时听完也懵了：我们一堆人、四五个人在茶话会上，听完拿笔在那算，所有人都不想修了。最后师父话锋一转，说：非也非也，有方法的。</p>
 <p>所以，如果你没有得到什么特别殊胜的传承，就修一些基础的法门，自己这样炼精化气、打双盘，时间上不会有差池；但如果有特殊的法门，迅速筑基、甚至阶段性跳过筑基，那就快了。拿金光法举例：张三每天静坐、持诵经典，自己修，听完这课回去发愿自己修；李四跟着我修，我带着他，每天教他点特殊的法，再给他做点药丸吃，再传点特殊的观想法门。张三可能三年，李四可能三个月就成了，不夸张。法教也能修气脉，同样的道理。不管观想哪个门派的祖师，还是观想任何东西，观想就是凝神；凝了神，气就注，自然而然，这一套流程就开始了。但你凝不住怎么办？我再教你个方法；这个方法凝不住，我再教你个方法。总有一些特殊的方法能迅速凝神聚气、迅速打通。</p>
-<p>而且有些人适合练小周天，有些人的身体适合站桩，有些人的身体适合金光，都不一样。好的师承，能根据你个人的根器、体质、心性状态来引导你、陪伴你、带领你，那你就特别快。如果师父不管你——大门大派几百个徒弟，你见不着师父——那就慢了。刘亦婷到时候拜师，要修3500座吗？我觉得用不了。我不敢说师父教她东西要多少座，反正绝对用不了3500座，保守说1000座、2000座，说不定都可以；她前期用功夫筑基，练两三个月气脉就通了，身体气色完全不一样，然后师父再传进阶功法。</p>
+<p>而且有些人适合练小周天，有些人的身体适合站桩，有些人的身体适合金光，都不一样。好的师承，能根据你个人的根器、体质、心性状态来引导你、陪伴你、带领你，那你就特别快。如果师父不管你——大门大派几百个徒弟，你见不着师父——那就慢了。刘师弟到时候拜师，要修3500座吗？我觉得用不了。我不敢说师父教他东西要多少座，反正绝对用不了3500座，保守说1000座、2000座，说不定都可以；他前期用功夫筑基，练两三个月气脉就通了，身体气色完全不一样，然后师父再传进阶功法。</p>
 <h3 id="section-27">2. 气功有瓶颈，后期要靠性功</h3>
 <p>到后面就是炼神返虚，更重心学。但命功是前期的支撑：我上来给你讲炼神返虚，你练个啥？往那一坐，盘个腿腿疼、腰疼，今天这儿疼、明天那儿疼；悟道怎么悟？理解不了的。元神不可能出来，识神一定会控制你。所以一开始我们就不纠结元神、识神的问题，从命功下手、从气脉下手、从气功下手去修炼。</p>
 <p>但同样，气功有弊端：不管是谁修气功，总有修到头的那一天。如果修气功修到后面没有名师指引，就没法继续往后走，没法练神、返虚，更谈不上悟道、与天地独往来。但前期这个东西是一定必要的，这是个过程。</p>
@@ -283,13 +300,150 @@ const toc=document.querySelector('.toc'),menu=document.querySelector('.menu'),sh
 function closeToc(){toc.classList.remove('open');shade.classList.remove('open');menu.setAttribute('aria-expanded','false')}
 menu.addEventListener('click',()=>{const on=!toc.classList.contains('open');toc.classList.toggle('open',on);shade.classList.toggle('open',on);menu.setAttribute('aria-expanded',String(on))});
 shade.addEventListener('click',closeToc);toc.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeToc));
-const links=[...toc.querySelectorAll('a')];
-const heads=[...document.querySelectorAll('h1[id],h2[id],h3[id]')];
+let links=[...toc.querySelectorAll('a')];
+let heads=[...document.querySelectorAll('h1[id],h2[id],h3[id]')];
 window.addEventListener('scroll',()=>{
   const off=96;let cur=null;
   for(const h of heads){if(h.getBoundingClientRect().top<=off)cur=h;else break}
   links.forEach(a=>a.classList.toggle('active',cur&&a.getAttribute('href')==='#'+cur.id));
 },{passive:true});
 window.dispatchEvent(new Event('scroll'));
+const KEY='dao-edit-v1-'+document.title;
+const MD_NAME='第3节课_修真大门_忠实精校稿.md';
+const selAll=()=>[...document.querySelectorAll('.page-inner>h2,.page-inner>h3,.page-inner>p,.page-inner>aside.note')];
+const norm=t=>t.replace(/\s+/g,' ').trim();
+function noteNorm(t){return t.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').map(s=>s.trim()).join('\n').replace(/\n{3,}/g,'\n\n').trim()}
+function blocks(){return [...document.querySelectorAll('.page-inner>*')].map(el=>{
+  const raw=el.tagName==='ASIDE'?el.innerText:el.textContent;
+  return {k:el.tagName==='ASIDE'?'note':el.tagName.toLowerCase(),t:el.tagName==='ASIDE'?noteNorm(raw):norm(raw)};
+})}
+function applyBlocks(bs){
+  const inner=document.querySelector('.page-inner');
+  inner.innerHTML='';
+  let sec=0;
+  bs.forEach(b=>{
+    let el;
+    if(b.k==='h1'){el=document.createElement('h1');el.id='section-0'}
+    else if(b.k==='h2'){sec+=1;el=document.createElement('h2');el.id='section-'+sec}
+    else if(b.k==='h3'){sec+=1;el=document.createElement('h3');el.id='section-'+sec}
+    else if(b.k==='note'){el=document.createElement('aside');el.className='note';el.innerHTML=b.t.replace(/\n/g,'<br>')}
+    else el=document.createElement('p');
+    if(b.k!=='note')el.textContent=b.t;
+    inner.appendChild(el);
+  });
+  rebuildToc();
+}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function rebuildToc(){
+  const parts=[];
+  let sec=0;
+  document.querySelectorAll('.page-inner>*').forEach(el=>{
+    if(el.tagName==='H1')return;
+    if(el.tagName==='H2'||el.tagName==='H3'){
+      sec+=1;
+      el.id='section-'+sec;
+      const t=norm(el.textContent);
+      if(!t)return;
+      if(el.tagName==='H2'){
+        const m=t.match(/^([一二三四五六七八九十]+)、(.+)$/);
+        if(m){
+          parts.push('<a class="toc-item" href="#section-'+sec+'"><span class="no">'+m[1]+'</span><span class="txt">'+escHtml(m[2])+'</span></a>');
+        }else{
+          parts.push('<a class="toc-item" href="#section-'+sec+'"><span class="txt">'+escHtml(t)+'</span></a>');
+        }
+      }else{
+        parts.push('<a class="toc-sub" href="#section-'+sec+'">'+escHtml(t)+'</a>');
+      }
+    }
+  });
+  const tb=document.querySelector('#toc .toc-body');
+  if(tb)tb.innerHTML=parts.join('');
+  const sub=document.querySelector('#toc .toc-subtitle');
+  if(sub)sub.textContent=sub.textContent.replace(/共 \d+ 节/,'共 '+parts.length+' 节');
+  toc.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeToc));
+  links=[...toc.querySelectorAll('a')];
+  heads=[...document.querySelectorAll('h1[id],h2[id],h3[id]')];
+}
+let tocTimer=null;
+document.querySelector('.page-inner').addEventListener('input',()=>{
+  clearTimeout(tocTimer);
+  tocTimer=setTimeout(rebuildToc,350);
+});
+let saved=null;
+try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){saved=null}
+if(saved&&Array.isArray(saved.blocks)&&saved.blocks.length>0)applyBlocks(saved.blocks);
+const btnEdit=document.getElementById('btnEdit'),btnReset=document.getElementById('btnReset'),btnNote=document.getElementById('btnNote'),btnAddNote=document.getElementById('btnAddNote'),btnDel=document.getElementById('btnDel');
+const editing=()=>document.body.classList.contains('editing');
+function enterEdit(){document.body.classList.add('editing');selAll().forEach(e=>e.contentEditable='true');btnEdit.textContent='✓ 保存'}
+function exitEdit(){document.body.classList.remove('editing');selAll().forEach(e=>e.contentEditable='false');btnEdit.textContent='✏️ 修改'}
+function blockOf(sel){
+  let node=sel&&sel.anchorNode?sel.anchorNode:null;
+  while(node&&node.nodeType===3)node=node.parentNode;
+  const tags=['H1','H2','H3','P','ASIDE'];
+  while(node&&!tags.includes(node.tagName))node=node.parentNode;
+  return node;
+}
+btnEdit.addEventListener('click',()=>{
+  if(!editing()){enterEdit();return}
+  const bs=blocks();
+  const cur=JSON.stringify(bs);
+  const prev=saved?JSON.stringify(saved.blocks):null;
+  if(prev!==cur){
+    localStorage.setItem(KEY,JSON.stringify({blocks:bs}));
+    const md=bs.map(b=>{
+      const t=b.t;if(!t)return'';
+      if(b.k==='h1')return'# '+t;
+      if(b.k==='h2')return'## '+t;
+      if(b.k==='h3')return'### '+t;
+      if(b.k==='note')return t.split('\n').map(l=>l===''?'>':' > '+l).join('\n');
+      return t;
+    }).filter(x=>x!=='').join('\n\n')+'\n';
+    const blob=new Blob([md],{type:'text/markdown;charset=utf-8'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=MD_NAME;
+    document.body.appendChild(a);a.click();a.remove();
+    URL.revokeObjectURL(a.href);
+    alert('已保存到本机，并下载了编辑稿（文件名与原稿相同，可直接覆盖）。\n提示：标题的增删改不会自动同步到左侧目录，以保存的 Markdown 为准。');
+  }
+  exitEdit();
+});
+btnNote.addEventListener('click',()=>{
+  const node=blockOf(document.getSelection());
+  if(!node||(node.tagName!=='P'&&node.tagName!=='ASIDE'))return;
+  const toAside=node.tagName!=='ASIDE';
+  const n=document.createElement(toAside?'aside':'p');
+  if(toAside)n.className='note';
+  n.textContent=node.textContent;
+  n.contentEditable='true';
+  node.replaceWith(n);
+  document.getSelection().removeAllRanges();
+  rebuildToc();
+});
+btnAddNote.addEventListener('click',()=>{
+  const inner=document.querySelector('.page-inner');
+  const aside=document.createElement('aside');
+  aside.className='note';
+  aside.contentEditable='true';
+  const node=blockOf(document.getSelection());
+  if(node&&inner.contains(node))node.after(aside);
+  else inner.appendChild(aside);
+  const sel=document.getSelection();
+  const r=document.createRange();
+  r.selectNodeContents(aside);
+  r.collapse(false);
+  sel.removeAllRanges();
+  sel.addRange(r);
+  aside.focus();
+  rebuildToc();
+});
+btnDel.addEventListener('click',()=>{
+  const node=blockOf(document.getSelection());
+  if(node&&['H2','H3','P','ASIDE'].includes(node.tagName)){node.remove();rebuildToc()}
+});
+btnReset.addEventListener('click',()=>{
+  localStorage.removeItem(KEY);
+  location.reload();
+});
 </script>
 </body></html>

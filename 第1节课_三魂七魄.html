@@ -31,10 +31,27 @@
 .home{display:none;position:fixed;top:14px;right:14px;z-index:40;border:1px solid var(--line);border-radius:999px;background:#fffaf0;color:var(--accent);padding:9px 16px;font:600 15px system-ui,sans-serif;box-shadow:0 4px 16px #5a433222;text-decoration:none}
 @media(max-width:860px){body{font-size:17px}.menu{display:block}.home{display:block}.toc{width:min(88vw,340px);transform:translateX(-103%);transition:transform .24s ease;box-shadow:10px 0 34px #39291c33}.toc.open{transform:none}.shade{position:fixed;inset:0;background:#1f170f66;z-index:15}.shade.open{display:block}.page{margin-left:0;padding:74px 20px 84px}.page-inner{max-width:680px}h1{font-size:29px}h2{font-size:22px;margin-top:46px}p{text-align:left}.note{font-size:14px}}
 @media(min-width:861px) and (max-width:1180px){.toc{width:262px}.page{margin-left:262px;padding-left:42px;padding-right:42px}}
-@media print{.toc,.menu,.shade,.home{display:none!important}.page{margin:0;max-width:none;padding:0}body{background:#fff}}
+@media print{.toc,.menu,.shade,.home,.editbar{display:none!important}.page{margin:0;max-width:none;padding:0}body{background:#fff}}
+.editbar{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:50}
+.editbtn{border:1px solid var(--line);border-radius:999px;background:#fffaf0;color:var(--accent);padding:8px 15px;font:600 14px system-ui,sans-serif;box-shadow:0 4px 16px #5a433222;cursor:pointer;transition:background .2s ease}
+.editbtn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.editbtn:hover{filter:brightness(.96)}
+body.editing .page-inner p,body.editing .page-inner aside.note{outline:1px dashed #b98a5f;outline-offset:5px;border-radius:4px;cursor:text}
+body.editing .page-inner h2,body.editing .page-inner h3{outline:1px dashed #9a8b6f;outline-offset:5px;border-radius:4px;cursor:text}
+.editbtn.only-edit{display:none}
+body.editing .editbtn.only-edit{display:inline-block}
+body.editing .page-inner aside.note:empty::after{content:'（在此输入引用文字…）';color:#b0a08c}
+@media(max-width:860px){.editbar{right:10px;bottom:10px}.editbtn{padding:7px 12px;font-size:13px}}
 </style>
 </head>
 <body>
+<div class="editbar">
+<button class="editbtn primary" id="btnEdit" type="button">✏️ 修改</button>
+<button class="editbtn only-edit" id="btnNote" type="button">▣ 高亮框</button>
+<button class="editbtn only-edit" id="btnAddNote" type="button">➕ 新增高亮框</button>
+<button class="editbtn only-edit" id="btnDel" type="button">🗑 删除</button>
+<button class="editbtn" id="btnReset" type="button">↺ 恢复原文</button>
+</div>
 <button class="menu" type="button" aria-controls="toc" aria-expanded="false">☰ 目录</button>
 <a class="home" href="课程总览.html">主目录</a>
 <nav class="toc" id="toc" aria-label="文章目录">
@@ -193,7 +210,7 @@
 <p>吞贼主免疫。它就是我们的免疫系统。吞贼出问题，免疫系统就出问题，西医说的免疫细胞，抵抗力强、抵抗力差，就是吞贼。它像什么？我觉得它像个杀毒软件，金山毒霸。</p>
 <p>它是晚上干的，吞贼晚上要杀毒。所以你熬夜，它就废了，越熬越废。首先前提是你得相信老祖宗这一套，这三魂七魄，不是我编出来的，是这几千年的文化沉淀，道医、道家、中医、传统文化共同认知的一个领域。你要相信它，你就知道了：哎哟，不敢熬夜了，早点睡吧。通宵打游戏，它不工作了，生活中常常感染到的细胞、毒细胞、各种各样的脏东西进去了，它搞不定，这不就金山毒霸吗？</p>
 <p>它不仅有杀毒的功能。手机的杀毒软件、电脑的杀毒软件，还有一个功能，这个可能是你们在外面搜不到的。杀毒软件除了杀毒，还有什么功能？它有净化功能，清理内存、清理垃圾。手机管家、电脑管家、360、金山毒霸都这样。手机电脑如果长时间不清内存，那些垃圾软件、安装包、乱七八糟的东西，就会导致电脑死机、占用空间、影响运行速度。人体的内存是什么呢？情绪。人都有情绪，凡人都有情绪。</p>
-<p>举个例子：刘亦婷在张三的手里打工，张三一个月给她开3000。刘亦婷是个牛马，每天累死累活，张三就给她开3000。刘亦婷说：“<span class="quote">哥，你给我涨点工资吧，我拖家带口的。</span>”张三说：“<span class="quote">哎呀涨不了，今年公司业绩不好。</span>”天天给她画大饼。刘亦婷气不气？气了，但没办法，生活所迫，她可以不干吗？她还得干。早出晚归，挣不了多少钱，怨气、怄气、怒气不就产生了？今天文案写不好了，还要被张三臭骂一顿，刘亦婷又憋又气，但没办法，为了生活。</p>
+<p>举个例子：刘师弟在张三的手里打工，张三一个月给他开3000。刘师弟是个牛马，每天累死累活，张三就给他开3000。刘师弟说：“<span class="quote">哥，你给我涨点工资吧，我拖家带口的。</span>”张三说：“<span class="quote">哎呀涨不了，今年公司业绩不好。</span>”天天给他画大饼。刘师弟气不气？气了，但没办法，生活所迫，他可以不干吗？他还得干。早出晚归，挣不了多少钱，怨气、怄气、怒气不就产生了？今天文案写不好了，还要被张三臭骂一顿，刘师弟又憋又气，但没办法，为了生活。</p>
 <p>白天产生的这些情绪，谁来消除？修行人可以通过修行的方法消除它、对治它。普通人怎么办？女孩还会哭，女生会哭；男生基本上过了二十岁、十八九岁以后都不会哭了。咱这群里男生挺多吧？我们小时候四五岁都哭吧，现在还哭吗？有人多久没哭过了？大部分人成年以后很难哭，哪怕很气，他会砸东西、摔碗、暴力发泄、骂娘，都不一定会哭。女孩子就很容易哭。所以女孩子的排毒系统比男孩子好，女孩子不仅能哭，还有经期，大姨妈还排呢；男生没有这个排的，也不哭。</p>
 <p>这个毒情绪也是一种毒，也会影响我们的魂：情绪积累得久了，胎光也受影响，三魂也容易被它牵着跑。那怎么办？这时候就睡觉，睡一觉就好了。我们经常听到那句老话：没事，睡一觉就好了。为什么祝你做个好梦？白天过得不开心嘛，祝你做好梦。如果他睡觉睡得好，晚上来到梦里吃吃喝喝、升官发财，一觉睡醒，第二天早上起来就好了。睡觉真的有这个功能。你会发现，早上受了委屈，中午午休睡一个小时起来，下午心情就会好。趴着睡一会儿，心情就好了。睡觉就是会调节情绪。在西方，认为是什么分泌多巴胺、激素；我们就认为是吞贼在工作，它有这个功能：清内存。你晚上睡觉了，它会出来，把毒吞了，还把情绪吞了、消解了，这就是净化。</p>
 <p>所以哭是个好事情。在道家认为，哭是个好事情，哭不是个坏事情。你们要学会去哭，不要觉得丢人，哭很好。哭特别发泄情绪，哭是药，我师父跟我说“<span class="quote">哭是药</span>”，很多中医都这样说。你一旦能大哭一场，哭完了以后好开心、好释怀。你哭不出来，憋着，睡又睡不好，那怎么办？就怕哭也哭不出来，又没有发泄情绪的方法，睡觉也睡得烦、睡不好。那这个情绪，吞贼消化不掉，你还熬夜，它更消化不掉。消化不掉的情绪就会成为病因。在中医里，情绪也会成为病因，成为新的疾病的种子。它不会消失，只会埋藏在你的体内，影响着你的三魂，早晚有一天要爆发。</p>
@@ -243,13 +260,150 @@ const toc=document.querySelector('.toc'),menu=document.querySelector('.menu'),sh
 function closeToc(){toc.classList.remove('open');shade.classList.remove('open');menu.setAttribute('aria-expanded','false')}
 menu.addEventListener('click',()=>{const on=!toc.classList.contains('open');toc.classList.toggle('open',on);shade.classList.toggle('open',on);menu.setAttribute('aria-expanded',String(on))});
 shade.addEventListener('click',closeToc);toc.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeToc));
-const links=[...toc.querySelectorAll('a')];
-const heads=[...document.querySelectorAll('h1[id],h2[id],h3[id]')];
+let links=[...toc.querySelectorAll('a')];
+let heads=[...document.querySelectorAll('h1[id],h2[id],h3[id]')];
 window.addEventListener('scroll',()=>{
   const off=96;let cur=null;
   for(const h of heads){if(h.getBoundingClientRect().top<=off)cur=h;else break}
   links.forEach(a=>a.classList.toggle('active',cur&&a.getAttribute('href')==='#'+cur.id));
 },{passive:true});
 window.dispatchEvent(new Event('scroll'));
+const KEY='dao-edit-v1-'+document.title;
+const MD_NAME='第1节课_三魂七魄_忠实精校稿.md';
+const selAll=()=>[...document.querySelectorAll('.page-inner>h2,.page-inner>h3,.page-inner>p,.page-inner>aside.note')];
+const norm=t=>t.replace(/\s+/g,' ').trim();
+function noteNorm(t){return t.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').map(s=>s.trim()).join('\n').replace(/\n{3,}/g,'\n\n').trim()}
+function blocks(){return [...document.querySelectorAll('.page-inner>*')].map(el=>{
+  const raw=el.tagName==='ASIDE'?el.innerText:el.textContent;
+  return {k:el.tagName==='ASIDE'?'note':el.tagName.toLowerCase(),t:el.tagName==='ASIDE'?noteNorm(raw):norm(raw)};
+})}
+function applyBlocks(bs){
+  const inner=document.querySelector('.page-inner');
+  inner.innerHTML='';
+  let sec=0;
+  bs.forEach(b=>{
+    let el;
+    if(b.k==='h1'){el=document.createElement('h1');el.id='section-0'}
+    else if(b.k==='h2'){sec+=1;el=document.createElement('h2');el.id='section-'+sec}
+    else if(b.k==='h3'){sec+=1;el=document.createElement('h3');el.id='section-'+sec}
+    else if(b.k==='note'){el=document.createElement('aside');el.className='note';el.innerHTML=b.t.replace(/\n/g,'<br>')}
+    else el=document.createElement('p');
+    if(b.k!=='note')el.textContent=b.t;
+    inner.appendChild(el);
+  });
+  rebuildToc();
+}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function rebuildToc(){
+  const parts=[];
+  let sec=0;
+  document.querySelectorAll('.page-inner>*').forEach(el=>{
+    if(el.tagName==='H1')return;
+    if(el.tagName==='H2'||el.tagName==='H3'){
+      sec+=1;
+      el.id='section-'+sec;
+      const t=norm(el.textContent);
+      if(!t)return;
+      if(el.tagName==='H2'){
+        const m=t.match(/^([一二三四五六七八九十]+)、(.+)$/);
+        if(m){
+          parts.push('<a class="toc-item" href="#section-'+sec+'"><span class="no">'+m[1]+'</span><span class="txt">'+escHtml(m[2])+'</span></a>');
+        }else{
+          parts.push('<a class="toc-item" href="#section-'+sec+'"><span class="txt">'+escHtml(t)+'</span></a>');
+        }
+      }else{
+        parts.push('<a class="toc-sub" href="#section-'+sec+'">'+escHtml(t)+'</a>');
+      }
+    }
+  });
+  const tb=document.querySelector('#toc .toc-body');
+  if(tb)tb.innerHTML=parts.join('');
+  const sub=document.querySelector('#toc .toc-subtitle');
+  if(sub)sub.textContent=sub.textContent.replace(/共 \d+ 节/,'共 '+parts.length+' 节');
+  toc.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeToc));
+  links=[...toc.querySelectorAll('a')];
+  heads=[...document.querySelectorAll('h1[id],h2[id],h3[id]')];
+}
+let tocTimer=null;
+document.querySelector('.page-inner').addEventListener('input',()=>{
+  clearTimeout(tocTimer);
+  tocTimer=setTimeout(rebuildToc,350);
+});
+let saved=null;
+try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){saved=null}
+if(saved&&Array.isArray(saved.blocks)&&saved.blocks.length>0)applyBlocks(saved.blocks);
+const btnEdit=document.getElementById('btnEdit'),btnReset=document.getElementById('btnReset'),btnNote=document.getElementById('btnNote'),btnAddNote=document.getElementById('btnAddNote'),btnDel=document.getElementById('btnDel');
+const editing=()=>document.body.classList.contains('editing');
+function enterEdit(){document.body.classList.add('editing');selAll().forEach(e=>e.contentEditable='true');btnEdit.textContent='✓ 保存'}
+function exitEdit(){document.body.classList.remove('editing');selAll().forEach(e=>e.contentEditable='false');btnEdit.textContent='✏️ 修改'}
+function blockOf(sel){
+  let node=sel&&sel.anchorNode?sel.anchorNode:null;
+  while(node&&node.nodeType===3)node=node.parentNode;
+  const tags=['H1','H2','H3','P','ASIDE'];
+  while(node&&!tags.includes(node.tagName))node=node.parentNode;
+  return node;
+}
+btnEdit.addEventListener('click',()=>{
+  if(!editing()){enterEdit();return}
+  const bs=blocks();
+  const cur=JSON.stringify(bs);
+  const prev=saved?JSON.stringify(saved.blocks):null;
+  if(prev!==cur){
+    localStorage.setItem(KEY,JSON.stringify({blocks:bs}));
+    const md=bs.map(b=>{
+      const t=b.t;if(!t)return'';
+      if(b.k==='h1')return'# '+t;
+      if(b.k==='h2')return'## '+t;
+      if(b.k==='h3')return'### '+t;
+      if(b.k==='note')return t.split('\n').map(l=>l===''?'>':' > '+l).join('\n');
+      return t;
+    }).filter(x=>x!=='').join('\n\n')+'\n';
+    const blob=new Blob([md],{type:'text/markdown;charset=utf-8'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=MD_NAME;
+    document.body.appendChild(a);a.click();a.remove();
+    URL.revokeObjectURL(a.href);
+    alert('已保存到本机，并下载了编辑稿（文件名与原稿相同，可直接覆盖）。\n提示：标题的增删改不会自动同步到左侧目录，以保存的 Markdown 为准。');
+  }
+  exitEdit();
+});
+btnNote.addEventListener('click',()=>{
+  const node=blockOf(document.getSelection());
+  if(!node||(node.tagName!=='P'&&node.tagName!=='ASIDE'))return;
+  const toAside=node.tagName!=='ASIDE';
+  const n=document.createElement(toAside?'aside':'p');
+  if(toAside)n.className='note';
+  n.textContent=node.textContent;
+  n.contentEditable='true';
+  node.replaceWith(n);
+  document.getSelection().removeAllRanges();
+  rebuildToc();
+});
+btnAddNote.addEventListener('click',()=>{
+  const inner=document.querySelector('.page-inner');
+  const aside=document.createElement('aside');
+  aside.className='note';
+  aside.contentEditable='true';
+  const node=blockOf(document.getSelection());
+  if(node&&inner.contains(node))node.after(aside);
+  else inner.appendChild(aside);
+  const sel=document.getSelection();
+  const r=document.createRange();
+  r.selectNodeContents(aside);
+  r.collapse(false);
+  sel.removeAllRanges();
+  sel.addRange(r);
+  aside.focus();
+  rebuildToc();
+});
+btnDel.addEventListener('click',()=>{
+  const node=blockOf(document.getSelection());
+  if(node&&['H2','H3','P','ASIDE'].includes(node.tagName)){node.remove();rebuildToc()}
+});
+btnReset.addEventListener('click',()=>{
+  localStorage.removeItem(KEY);
+  location.reload();
+});
 </script>
 </body></html>
