@@ -31,10 +31,27 @@
 .home{display:none;position:fixed;top:14px;right:14px;z-index:40;border:1px solid var(--line);border-radius:999px;background:#fffaf0;color:var(--accent);padding:9px 16px;font:600 15px system-ui,sans-serif;box-shadow:0 4px 16px #5a433222;text-decoration:none}
 @media(max-width:860px){body{font-size:17px}.menu{display:block}.home{display:block}.toc{width:min(88vw,340px);transform:translateX(-103%);transition:transform .24s ease;box-shadow:10px 0 34px #39291c33}.toc.open{transform:none}.shade{position:fixed;inset:0;background:#1f170f66;z-index:15}.shade.open{display:block}.page{margin-left:0;padding:74px 20px 84px}.page-inner{max-width:680px}h1{font-size:29px}h2{font-size:22px;margin-top:46px}p{text-align:left}.note{font-size:14px}}
 @media(min-width:861px) and (max-width:1180px){.toc{width:262px}.page{margin-left:262px;padding-left:42px;padding-right:42px}}
-@media print{.toc,.menu,.shade,.home{display:none!important}.page{margin:0;max-width:none;padding:0}body{background:#fff}}
+@media print{.toc,.menu,.shade,.home,.editbar{display:none!important}.page{margin:0;max-width:none;padding:0}body{background:#fff}}
+.editbar{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:50}
+.editbtn{border:1px solid var(--line);border-radius:999px;background:#fffaf0;color:var(--accent);padding:8px 15px;font:600 14px system-ui,sans-serif;box-shadow:0 4px 16px #5a433222;cursor:pointer;transition:background .2s ease}
+.editbtn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.editbtn:hover{filter:brightness(.96)}
+body.editing .page-inner p,body.editing .page-inner aside.note{outline:1px dashed #b98a5f;outline-offset:5px;border-radius:4px;cursor:text}
+body.editing .page-inner h2,body.editing .page-inner h3{outline:1px dashed #9a8b6f;outline-offset:5px;border-radius:4px;cursor:text}
+.editbtn.only-edit{display:none}
+body.editing .editbtn.only-edit{display:inline-block}
+body.editing .page-inner aside.note:empty::after{content:'（在此输入引用文字…）';color:#b0a08c}
+@media(max-width:860px){.editbar{right:10px;bottom:10px}.editbtn{padding:7px 12px;font-size:13px}}
 </style>
 </head>
 <body>
+<div class="editbar">
+<button class="editbtn primary" id="btnEdit" type="button">✏️ 修改</button>
+<button class="editbtn only-edit" id="btnNote" type="button">▣ 高亮框</button>
+<button class="editbtn only-edit" id="btnAddNote" type="button">➕ 新增高亮框</button>
+<button class="editbtn only-edit" id="btnDel" type="button">🗑 删除</button>
+<button class="editbtn" id="btnReset" type="button">↺ 恢复原文</button>
+</div>
 <button class="menu" type="button" aria-controls="toc" aria-expanded="false">☰ 目录</button>
 <a class="home" href="课程总览.html">主目录</a>
 <nav class="toc" id="toc" aria-label="文章目录">
@@ -236,13 +253,158 @@ const toc=document.querySelector('.toc'),menu=document.querySelector('.menu'),sh
 function closeToc(){toc.classList.remove('open');shade.classList.remove('open');menu.setAttribute('aria-expanded','false')}
 menu.addEventListener('click',()=>{const on=!toc.classList.contains('open');toc.classList.toggle('open',on);shade.classList.toggle('open',on);menu.setAttribute('aria-expanded',String(on))});
 shade.addEventListener('click',closeToc);toc.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeToc));
-const links=[...toc.querySelectorAll('a')];
-const heads=[...document.querySelectorAll('h1[id],h2[id],h3[id]')];
+let links=[...toc.querySelectorAll('a')];
+let heads=[...document.querySelectorAll('h1[id],h2[id],h3[id]')];
 window.addEventListener('scroll',()=>{
   const off=96;let cur=null;
   for(const h of heads){if(h.getBoundingClientRect().top<=off)cur=h;else break}
   links.forEach(a=>a.classList.toggle('active',cur&&a.getAttribute('href')==='#'+cur.id));
 },{passive:true});
 window.dispatchEvent(new Event('scroll'));
+const KEY='dao-edit-v1-'+document.title;
+const MD_NAME='第12节课_密宗_忠实精校稿.md';
+const selAll=()=>[...document.querySelectorAll('.page-inner>h2,.page-inner>h3,.page-inner>p,.page-inner>aside.note')];
+const norm=t=>t.replace(/\s+/g,' ').trim();
+function noteNorm(t){return t.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').map(s=>s.trim()).join('\n').replace(/\n{3,}/g,'\n\n').trim()}
+function blocks(){return [...document.querySelectorAll('.page-inner>*')].map(el=>{
+  const raw=el.tagName==='ASIDE'?el.innerText:el.textContent;
+  return {k:el.tagName==='ASIDE'?'note':el.tagName.toLowerCase(),t:el.tagName==='ASIDE'?noteNorm(raw):norm(raw)};
+})}
+function applyBlocks(bs){
+  const inner=document.querySelector('.page-inner');
+  inner.innerHTML='';
+  let sec=0;
+  bs.forEach(b=>{
+    let el;
+    if(b.k==='h1'){el=document.createElement('h1');el.id='section-0'}
+    else if(b.k==='h2'){sec+=1;el=document.createElement('h2');el.id='section-'+sec}
+    else if(b.k==='h3'){sec+=1;el=document.createElement('h3');el.id='section-'+sec}
+    else if(b.k==='note'){el=document.createElement('aside');el.className='note';el.innerHTML=b.t.replace(/\n/g,'<br>')}
+    else el=document.createElement('p');
+    if(b.k!=='note')el.textContent=b.t;
+    inner.appendChild(el);
+  });
+  rebuildToc();
+}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function rebuildToc(){
+  const parts=[];
+  let sec=0;
+  document.querySelectorAll('.page-inner>*').forEach(el=>{
+    if(el.tagName==='H1')return;
+    if(el.tagName==='H2'||el.tagName==='H3'){
+      sec+=1;
+      el.id='section-'+sec;
+      const t=norm(el.textContent);
+      if(!t)return;
+      if(el.tagName==='H2'){
+        const m=t.match(/^([一二三四五六七八九十]+)、(.+)$/);
+        if(m){
+          parts.push('<a class="toc-item" href="#section-'+sec+'"><span class="no">'+m[1]+'</span><span class="txt">'+escHtml(m[2])+'</span></a>');
+        }else{
+          parts.push('<a class="toc-item" href="#section-'+sec+'"><span class="txt">'+escHtml(t)+'</span></a>');
+        }
+      }else{
+        parts.push('<a class="toc-sub" href="#section-'+sec+'">'+escHtml(t)+'</a>');
+      }
+    }
+  });
+  const tb=document.querySelector('#toc .toc-body');
+  if(tb)tb.innerHTML=parts.join('');
+  const sub=document.querySelector('#toc .toc-subtitle');
+  if(sub)sub.textContent=sub.textContent.replace(/共 \d+ 节/,'共 '+parts.length+' 节');
+  toc.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeToc));
+  links=[...toc.querySelectorAll('a')];
+  heads=[...document.querySelectorAll('h1[id],h2[id],h3[id]')];
+}
+let tocTimer=null;
+document.querySelector('.page-inner').addEventListener('input',()=>{
+  clearTimeout(tocTimer);
+  tocTimer=setTimeout(rebuildToc,350);
+});
+document.querySelector('.page-inner').addEventListener('keydown',(e)=>{
+  if(e.key!=='Enter')return;
+  const node=blockOf(document.getSelection());
+  if(node&&node.tagName==='ASIDE'){
+    e.preventDefault();
+    document.execCommand('insertLineBreak');
+  }
+});
+let saved=null;
+try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){saved=null}
+if(saved&&Array.isArray(saved.blocks)&&saved.blocks.length>0)applyBlocks(saved.blocks);
+const btnEdit=document.getElementById('btnEdit'),btnReset=document.getElementById('btnReset'),btnNote=document.getElementById('btnNote'),btnAddNote=document.getElementById('btnAddNote'),btnDel=document.getElementById('btnDel');
+const editing=()=>document.body.classList.contains('editing');
+function enterEdit(){document.body.classList.add('editing');selAll().forEach(e=>e.contentEditable='true');btnEdit.textContent='✓ 保存'}
+function exitEdit(){document.body.classList.remove('editing');selAll().forEach(e=>e.contentEditable='false');btnEdit.textContent='✏️ 修改'}
+function blockOf(sel){
+  let node=sel&&sel.anchorNode?sel.anchorNode:null;
+  while(node&&node.nodeType===3)node=node.parentNode;
+  const tags=['H1','H2','H3','P','ASIDE'];
+  while(node&&!tags.includes(node.tagName))node=node.parentNode;
+  return node;
+}
+btnEdit.addEventListener('click',()=>{
+  if(!editing()){enterEdit();return}
+  const bs=blocks();
+  const cur=JSON.stringify(bs);
+  const prev=saved?JSON.stringify(saved.blocks):null;
+  if(prev!==cur){
+    localStorage.setItem(KEY,JSON.stringify({blocks:bs}));
+    const md=bs.map(b=>{
+      const t=b.t;if(!t)return'';
+      if(b.k==='h1')return'# '+t;
+      if(b.k==='h2')return'## '+t;
+      if(b.k==='h3')return'### '+t;
+      if(b.k==='note')return t.split('\n').map(l=>l===''?'>':' > '+l).join('\n');
+      return t;
+    }).filter(x=>x!=='').join('\n\n')+'\n';
+    const blob=new Blob([md],{type:'text/markdown;charset=utf-8'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=MD_NAME;
+    document.body.appendChild(a);a.click();a.remove();
+    URL.revokeObjectURL(a.href);
+    alert('已保存到本机，并下载了编辑稿（文件名与原稿相同，可直接覆盖）。\n提示：标题的增删改不会自动同步到左侧目录，以保存的 Markdown 为准。');
+  }
+  exitEdit();
+});
+btnNote.addEventListener('click',()=>{
+  const node=blockOf(document.getSelection());
+  if(!node||(node.tagName!=='P'&&node.tagName!=='ASIDE'))return;
+  const toAside=node.tagName!=='ASIDE';
+  const n=document.createElement(toAside?'aside':'p');
+  if(toAside)n.className='note';
+  n.textContent=node.textContent;
+  n.contentEditable='true';
+  node.replaceWith(n);
+  document.getSelection().removeAllRanges();
+  rebuildToc();
+});
+btnAddNote.addEventListener('click',()=>{
+  const inner=document.querySelector('.page-inner');
+  const aside=document.createElement('aside');
+  aside.className='note';
+  aside.contentEditable='true';
+  const node=blockOf(document.getSelection());
+  if(node&&inner.contains(node))node.after(aside);
+  else inner.appendChild(aside);
+  const sel=document.getSelection();
+  const r=document.createRange();
+  r.selectNodeContents(aside);
+  r.collapse(false);
+  sel.removeAllRanges();
+  sel.addRange(r);
+  aside.focus();
+  rebuildToc();
+});
+btnDel.addEventListener('click',()=>{
+  const node=blockOf(document.getSelection());
+  if(node&&['H2','H3','P','ASIDE'].includes(node.tagName)){node.remove();rebuildToc()}
+});
+btnReset.addEventListener('click',()=>{
+  localStorage.removeItem(KEY);
+  location.reload();
+});
 </script>
 </body></html>

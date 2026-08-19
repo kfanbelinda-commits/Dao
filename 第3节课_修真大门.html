@@ -369,6 +369,14 @@ document.querySelector('.page-inner').addEventListener('input',()=>{
   clearTimeout(tocTimer);
   tocTimer=setTimeout(rebuildToc,350);
 });
+document.querySelector('.page-inner').addEventListener('keydown',(e)=>{
+  if(e.key!=='Enter')return;
+  const node=blockOf(document.getSelection());
+  if(node&&node.tagName==='ASIDE'){
+    e.preventDefault();
+    document.execCommand('insertLineBreak');
+  }
+});
 let saved=null;
 try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){saved=null}
 if(saved&&Array.isArray(saved.blocks)&&saved.blocks.length>0)applyBlocks(saved.blocks);

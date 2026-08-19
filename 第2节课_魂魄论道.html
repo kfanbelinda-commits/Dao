@@ -31,10 +31,27 @@
 .home{display:none;position:fixed;top:14px;right:14px;z-index:40;border:1px solid var(--line);border-radius:999px;background:#fffaf0;color:var(--accent);padding:9px 16px;font:600 15px system-ui,sans-serif;box-shadow:0 4px 16px #5a433222;text-decoration:none}
 @media(max-width:860px){body{font-size:17px}.menu{display:block}.home{display:block}.toc{width:min(88vw,340px);transform:translateX(-103%);transition:transform .24s ease;box-shadow:10px 0 34px #39291c33}.toc.open{transform:none}.shade{position:fixed;inset:0;background:#1f170f66;z-index:15}.shade.open{display:block}.page{margin-left:0;padding:74px 20px 84px}.page-inner{max-width:680px}h1{font-size:29px}h2{font-size:22px;margin-top:46px}p{text-align:left}.note{font-size:14px}}
 @media(min-width:861px) and (max-width:1180px){.toc{width:262px}.page{margin-left:262px;padding-left:42px;padding-right:42px}}
-@media print{.toc,.menu,.shade,.home{display:none!important}.page{margin:0;max-width:none;padding:0}body{background:#fff}}
+@media print{.toc,.menu,.shade,.home,.editbar{display:none!important}.page{margin:0;max-width:none;padding:0}body{background:#fff}}
+.editbar{position:fixed;right:18px;bottom:18px;display:flex;gap:8px;z-index:50}
+.editbtn{border:1px solid var(--line);border-radius:999px;background:#fffaf0;color:var(--accent);padding:8px 15px;font:600 14px system-ui,sans-serif;box-shadow:0 4px 16px #5a433222;cursor:pointer;transition:background .2s ease}
+.editbtn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.editbtn:hover{filter:brightness(.96)}
+body.editing .page-inner p,body.editing .page-inner aside.note{outline:1px dashed #b98a5f;outline-offset:5px;border-radius:4px;cursor:text}
+body.editing .page-inner h2,body.editing .page-inner h3{outline:1px dashed #9a8b6f;outline-offset:5px;border-radius:4px;cursor:text}
+.editbtn.only-edit{display:none}
+body.editing .editbtn.only-edit{display:inline-block}
+body.editing .page-inner aside.note:empty::after{content:'（在此输入引用文字…）';color:#b0a08c}
+@media(max-width:860px){.editbar{right:10px;bottom:10px}.editbtn{padding:7px 12px;font-size:13px}}
 </style>
 </head>
 <body>
+<div class="editbar">
+<button class="editbtn primary" id="btnEdit" type="button">✏️ 修改</button>
+<button class="editbtn only-edit" id="btnNote" type="button">▣ 高亮框</button>
+<button class="editbtn only-edit" id="btnAddNote" type="button">➕ 新增高亮框</button>
+<button class="editbtn only-edit" id="btnDel" type="button">🗑 删除</button>
+<button class="editbtn" id="btnReset" type="button">↺ 恢复原文</button>
+</div>
 <button class="menu" type="button" aria-controls="toc" aria-expanded="false">☰ 目录</button>
 <a class="home" href="课程总览.html">主目录</a>
 <nav class="toc" id="toc" aria-label="文章目录">
@@ -81,8 +98,8 @@
 <p>上次我们讲了魂魄，大家已经有了一个基本了解。今天继续讲魂魄，不过这次主要站在修道的角度来谈。</p>
 <p>在医学体系，尤其是中医体系里，通常会认为三魂七魄都应正常发挥作用，各司其职，一个也不能少。但从修行的角度看，理解并不完全相同。</p>
 <p>先说三魂。三魂之中，对修行最重要的是胎光。我们修行，主要修的就是胎光。胎光的增长，也会增长人的福报和气运，因为胎光属阳、属天。</p>
-<p>修行要结丹，要修炼元神；修持某些法门，还希望感应祖师、上真、正神以及天地法则。靠什么去感召这些？我认为，靠的不是爽灵，而是胎光，只有胎光可以感召。</p>
-<p>如果胎光很弱，即使上真正神给了机缘，也可能感应不到。很多人有过类似经历：在梦中、入定或打坐时遇到某种特殊感应，看见了某位祖师——例如学二郎神法的人可能看见二郎爷——或者感觉有人传了一个法、说了几句话，醒来以后却记不住，仿佛感应到了，又没有感应完整。</p>
+<p>修行要接丹，要修炼元神；修持某些法门，还希望感应祖师、上真、正神以及天地法则。靠什么去感召这些？我认为，靠的不是爽灵，而是胎光，只有胎光可以感召。</p>
+<p>如果胎光很弱，即使上真正神给了机缘，也可能感应不到。很多人有过类似经历：在梦中、入定或打坐时遇到某种特殊感应，看见了某位祖师，或者感觉有人传了一个法、说了几句话，醒来以后却记不住，仿佛感应到了，又没有感应完整。</p>
 <p>遇到这种事情，不必过度在意。记得就记得，不记得也不用强求。有些人的确会有自己所谓的“<span class="quote">神传</span>”经历，甚至会一些老师没有教过的东西，这属于个人感应。但从这里所讲的体系看，能够产生感应，依靠的仍然是胎光。</p>
 <p>如果胎光特别弱，一直被爽灵、幽精牵着鼻子走，再怎么修行也很难产生感召。不只是内丹、内炼如此，修符箓派、正一派或者民间法脉，如果胎光很弱，也很难得到感召。</p>
 <p>所以，为什么学任何法门都要重视内炼？因为这是许多正统修持体系的共通点。除非碰到邪师、外道或骗子，跟你说不用内炼，不用辛苦，不用流汗和付出，交了钱以后由他操作一下，符立刻就灵，法立刻就会。这样的说法不在正常修持的讨论范围内。</p>
@@ -234,7 +251,7 @@
 <h3 id="section-23">1. 面对美色</h3>
 <p>看到相貌出众的人，第一反应觉得好看，是自然的。问题在于后续是否生出占有、控制、幻想：“<span class="quote">如果她是我的伴侣就好了。</span>”当爽灵和幽精结合起来，欲望便开始扩张。</p>
 <p>可以换一个角度：把美当成风景来欣赏。泰山、黄山也很好看，爬上去看日落，会感叹“<span class="quote">真漂亮</span>”，但不会因此想：“<span class="quote">那我住在这里吧。</span>”面对美色也可以如此：欣赏之后结束，不继续发展后面的念头。</p>
-<p>这不是压抑，也不是否定正常身体反应。课上有人问到梦遗等生理现象该怎么办，讲者认为这是正常现象，不必过分压抑；过度压抑本身也可能是识神在运作。合理控制，把心思更多放在回光和练功上即可。</p>
+<p>这不是压抑，也不是否定正常身体反应。过度压抑本身也可能是识神在运作。合理控制，把心思更多放在回光和练功上即可。</p>
 <h3 id="section-24">2. 面对跑车、名利与嫉妒</h3>
 <p>看见一辆跑车，第一念往往只是“<span class="quote">真漂亮</span>”。问题从第二念开始：如果这辆车是我的就好了；我为什么开不上；对方肯定是富二代；我的父母为什么没有给我这些；甚至进一步贬低对方，认为他的财富来路不正。</p>
 <p>如果看见别人拥有好车、身边有漂亮伴侣，能单纯欣赏，并祝福他们，也能想到对方可能通过努力获得，而不是立刻嫉妒、贬低，这就接近更清明的状态。</p>
@@ -296,13 +313,158 @@ const toc=document.querySelector('.toc'),menu=document.querySelector('.menu'),sh
 function closeToc(){toc.classList.remove('open');shade.classList.remove('open');menu.setAttribute('aria-expanded','false')}
 menu.addEventListener('click',()=>{const on=!toc.classList.contains('open');toc.classList.toggle('open',on);shade.classList.toggle('open',on);menu.setAttribute('aria-expanded',String(on))});
 shade.addEventListener('click',closeToc);toc.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeToc));
-const links=[...toc.querySelectorAll('a')];
-const heads=[...document.querySelectorAll('h1[id],h2[id],h3[id]')];
+let links=[...toc.querySelectorAll('a')];
+let heads=[...document.querySelectorAll('h1[id],h2[id],h3[id]')];
 window.addEventListener('scroll',()=>{
   const off=96;let cur=null;
   for(const h of heads){if(h.getBoundingClientRect().top<=off)cur=h;else break}
   links.forEach(a=>a.classList.toggle('active',cur&&a.getAttribute('href')==='#'+cur.id));
 },{passive:true});
 window.dispatchEvent(new Event('scroll'));
+const KEY='dao-edit-v1-'+document.title;
+const MD_NAME='第2节课_魂魄论道_字幕稿.md';
+const selAll=()=>[...document.querySelectorAll('.page-inner>h2,.page-inner>h3,.page-inner>p,.page-inner>aside.note')];
+const norm=t=>t.replace(/\s+/g,' ').trim();
+function noteNorm(t){return t.replace(/\r\n/g,'\n').replace(/\r/g,'\n').split('\n').map(s=>s.trim()).join('\n').replace(/\n{3,}/g,'\n\n').trim()}
+function blocks(){return [...document.querySelectorAll('.page-inner>*')].map(el=>{
+  const raw=el.tagName==='ASIDE'?el.innerText:el.textContent;
+  return {k:el.tagName==='ASIDE'?'note':el.tagName.toLowerCase(),t:el.tagName==='ASIDE'?noteNorm(raw):norm(raw)};
+})}
+function applyBlocks(bs){
+  const inner=document.querySelector('.page-inner');
+  inner.innerHTML='';
+  let sec=0;
+  bs.forEach(b=>{
+    let el;
+    if(b.k==='h1'){el=document.createElement('h1');el.id='section-0'}
+    else if(b.k==='h2'){sec+=1;el=document.createElement('h2');el.id='section-'+sec}
+    else if(b.k==='h3'){sec+=1;el=document.createElement('h3');el.id='section-'+sec}
+    else if(b.k==='note'){el=document.createElement('aside');el.className='note';el.innerHTML=b.t.replace(/\n/g,'<br>')}
+    else el=document.createElement('p');
+    if(b.k!=='note')el.textContent=b.t;
+    inner.appendChild(el);
+  });
+  rebuildToc();
+}
+function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function rebuildToc(){
+  const parts=[];
+  let sec=0;
+  document.querySelectorAll('.page-inner>*').forEach(el=>{
+    if(el.tagName==='H1')return;
+    if(el.tagName==='H2'||el.tagName==='H3'){
+      sec+=1;
+      el.id='section-'+sec;
+      const t=norm(el.textContent);
+      if(!t)return;
+      if(el.tagName==='H2'){
+        const m=t.match(/^([一二三四五六七八九十]+)、(.+)$/);
+        if(m){
+          parts.push('<a class="toc-item" href="#section-'+sec+'"><span class="no">'+m[1]+'</span><span class="txt">'+escHtml(m[2])+'</span></a>');
+        }else{
+          parts.push('<a class="toc-item" href="#section-'+sec+'"><span class="txt">'+escHtml(t)+'</span></a>');
+        }
+      }else{
+        parts.push('<a class="toc-sub" href="#section-'+sec+'">'+escHtml(t)+'</a>');
+      }
+    }
+  });
+  const tb=document.querySelector('#toc .toc-body');
+  if(tb)tb.innerHTML=parts.join('');
+  const sub=document.querySelector('#toc .toc-subtitle');
+  if(sub)sub.textContent=sub.textContent.replace(/共 \d+ 节/,'共 '+parts.length+' 节');
+  toc.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeToc));
+  links=[...toc.querySelectorAll('a')];
+  heads=[...document.querySelectorAll('h1[id],h2[id],h3[id]')];
+}
+let tocTimer=null;
+document.querySelector('.page-inner').addEventListener('input',()=>{
+  clearTimeout(tocTimer);
+  tocTimer=setTimeout(rebuildToc,350);
+});
+document.querySelector('.page-inner').addEventListener('keydown',(e)=>{
+  if(e.key!=='Enter')return;
+  const node=blockOf(document.getSelection());
+  if(node&&node.tagName==='ASIDE'){
+    e.preventDefault();
+    document.execCommand('insertLineBreak');
+  }
+});
+let saved=null;
+try{saved=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){saved=null}
+if(saved&&Array.isArray(saved.blocks)&&saved.blocks.length>0)applyBlocks(saved.blocks);
+const btnEdit=document.getElementById('btnEdit'),btnReset=document.getElementById('btnReset'),btnNote=document.getElementById('btnNote'),btnAddNote=document.getElementById('btnAddNote'),btnDel=document.getElementById('btnDel');
+const editing=()=>document.body.classList.contains('editing');
+function enterEdit(){document.body.classList.add('editing');selAll().forEach(e=>e.contentEditable='true');btnEdit.textContent='✓ 保存'}
+function exitEdit(){document.body.classList.remove('editing');selAll().forEach(e=>e.contentEditable='false');btnEdit.textContent='✏️ 修改'}
+function blockOf(sel){
+  let node=sel&&sel.anchorNode?sel.anchorNode:null;
+  while(node&&node.nodeType===3)node=node.parentNode;
+  const tags=['H1','H2','H3','P','ASIDE'];
+  while(node&&!tags.includes(node.tagName))node=node.parentNode;
+  return node;
+}
+btnEdit.addEventListener('click',()=>{
+  if(!editing()){enterEdit();return}
+  const bs=blocks();
+  const cur=JSON.stringify(bs);
+  const prev=saved?JSON.stringify(saved.blocks):null;
+  if(prev!==cur){
+    localStorage.setItem(KEY,JSON.stringify({blocks:bs}));
+    const md=bs.map(b=>{
+      const t=b.t;if(!t)return'';
+      if(b.k==='h1')return'# '+t;
+      if(b.k==='h2')return'## '+t;
+      if(b.k==='h3')return'### '+t;
+      if(b.k==='note')return t.split('\n').map(l=>l===''?'>':' > '+l).join('\n');
+      return t;
+    }).filter(x=>x!=='').join('\n\n')+'\n';
+    const blob=new Blob([md],{type:'text/markdown;charset=utf-8'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=MD_NAME;
+    document.body.appendChild(a);a.click();a.remove();
+    URL.revokeObjectURL(a.href);
+    alert('已保存到本机，并下载了编辑稿（文件名与原稿相同，可直接覆盖）。\n提示：标题的增删改不会自动同步到左侧目录，以保存的 Markdown 为准。');
+  }
+  exitEdit();
+});
+btnNote.addEventListener('click',()=>{
+  const node=blockOf(document.getSelection());
+  if(!node||(node.tagName!=='P'&&node.tagName!=='ASIDE'))return;
+  const toAside=node.tagName!=='ASIDE';
+  const n=document.createElement(toAside?'aside':'p');
+  if(toAside)n.className='note';
+  n.textContent=node.textContent;
+  n.contentEditable='true';
+  node.replaceWith(n);
+  document.getSelection().removeAllRanges();
+  rebuildToc();
+});
+btnAddNote.addEventListener('click',()=>{
+  const inner=document.querySelector('.page-inner');
+  const aside=document.createElement('aside');
+  aside.className='note';
+  aside.contentEditable='true';
+  const node=blockOf(document.getSelection());
+  if(node&&inner.contains(node))node.after(aside);
+  else inner.appendChild(aside);
+  const sel=document.getSelection();
+  const r=document.createRange();
+  r.selectNodeContents(aside);
+  r.collapse(false);
+  sel.removeAllRanges();
+  sel.addRange(r);
+  aside.focus();
+  rebuildToc();
+});
+btnDel.addEventListener('click',()=>{
+  const node=blockOf(document.getSelection());
+  if(node&&['H2','H3','P','ASIDE'].includes(node.tagName)){node.remove();rebuildToc()}
+});
+btnReset.addEventListener('click',()=>{
+  localStorage.removeItem(KEY);
+  location.reload();
+});
 </script>
 </body></html>
