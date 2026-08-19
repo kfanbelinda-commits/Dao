@@ -49,7 +49,7 @@ body.editing .page-inner aside.note:empty::after{content:'（在此输入引用�
 <button class="editbtn primary" id="btnEdit" type="button">✏️ 修改</button>
 <button class="editbtn only-edit" id="btnNote" type="button">▣ 高亮框</button>
 <button class="editbtn only-edit" id="btnAddNote" type="button">➕ 新增高亮框</button>
-<button class="editbtn only-edit" id="btnDel" type="button">🗑 删除标题</button>
+<button class="editbtn only-edit" id="btnDel" type="button">🗑 删除</button>
 <button class="editbtn" id="btnReset" type="button">↺ 恢复原文</button>
 </div>
 <button class="menu" type="button" aria-controls="toc" aria-expanded="false">☰ 目录</button>
@@ -333,7 +333,7 @@ btnAddNote.addEventListener('click',()=>{
 });
 btnDel.addEventListener('click',()=>{
   const node=blockOf(document.getSelection());
-  if(node&&(node.tagName==='H2'||node.tagName==='H3')){node.remove();rebuildToc()}
+  if(node&&['H2','H3','P','ASIDE'].includes(node.tagName)){node.remove();rebuildToc()}
 });
 btnReset.addEventListener('click',()=>{
   localStorage.removeItem(KEY);
